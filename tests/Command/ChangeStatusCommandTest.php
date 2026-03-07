@@ -75,3 +75,13 @@ it('reports complete when all artifacts are done', function (): void {
     $json = json_decode($tester->getDisplay(), true);
     expect($json['isComplete'])->toBeTrue();
 });
+
+it('fails when change directory does not exist', function (): void {
+    chdir($this->tmpDir);
+
+    $app = new Application();
+    $tester = new CommandTester($app->find('change:status'));
+    $tester->execute(['name' => 'unknown-change'], ['interactive' => false]);
+
+    expect($tester->getStatusCode())->toBe(1);
+});

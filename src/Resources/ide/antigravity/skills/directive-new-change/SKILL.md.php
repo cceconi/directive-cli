@@ -4,41 +4,42 @@
 return <<<'MD'
 # SKILL: directive-new
 
-Starting a new change requires 3 CLI commands and 4 artifacts. Follow these steps exactly.
+Starting a new change creates the `proposal` artifact only. Follow these steps exactly.
 
-## Step 1 — Create the change directory
+## Step 1 — Get the change name
 
-Ask the user for a change name (kebab-case, e.g. `my-feature`), then run:
+Ask the user for a change name (kebab-case, e.g. `my-feature`).
+If the user provides a description instead of a name, derive a kebab-case slug from it before continuing.
+
+## Step 2 — Create the change directory
 
 ```
 directive change:new <change-name>
 ```
 
-## Step 2 — Check initial status
+## Step 3 — Check initial status
 
 ```
 directive change:status <change-name>
 ```
 
-Read the output. The first ready artifact is `proposal`.
+Confirm that `proposal` is `ready`.
 
-## Step 3 — Write each artifact
-
-For each artifact that is `ready`, fetch its instructions:
+## Step 4 — Fetch proposal instructions
 
 ```
-directive change:instructions <artifact-id> --change <change-name>
+directive change:instructions proposal --change <change-name> --json
 ```
 
-Read the template and project context carefully, then produce the artifact file at its `outputPath` inside the change directory.
+Read the `template`, `context`, and `outputPath` from the JSON response.
 
-## Step 4 — Repeat until complete
+## Step 5 — Write proposal.md
 
-After saving each artifact, re-run `change:status <change-name>` to see which artifact becomes `ready` next. Continue until all 4 artifacts are `done`.
+Using the template and project context, produce the file at the `outputPath`
+inside the change directory (e.g. `directive-spec/changes/<change-name>/proposal.md`).
 
-Artifact order: `proposal` → `design` + `specs` (parallel) → `tasks`
+When done, inform the user:
+> "The proposal is created. Run `/dtsx-continue` to proceed with design and specs."
 
-## Step 5 — Hand off
-
-When `change:status` reports all artifacts as `done`, inform the user the change is ready for implementation.
+**Stop here.** Do NOT write design, specs, or tasks in this session.
 MD;

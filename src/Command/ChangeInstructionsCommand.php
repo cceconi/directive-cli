@@ -84,12 +84,21 @@ final class ChangeInstructionsCommand extends Command
 
         if ($asJson) {
             $output->writeln(json_encode([
-                'changeName'  => $changeName,
-                'artifactId'  => $artifactId,
-                'schemaName'  => 'spec-driven',
-                'outputPath'  => $artifactDef->outputPath,
-                'template'    => $template,
-                'context'     => $contextBlock,
+                'changeName'   => $changeName,
+                'artifactId'   => $artifactId,
+                'schemaName'   => 'spec-driven',
+                'outputPath'   => $artifactDef->outputPath,
+                'instruction'  => sprintf(
+                    'Produce the %s artifact for change "%s". Save the result at %s/%s/%s.',
+                    $artifactId,
+                    $changeName,
+                    $config->changesPath,
+                    $changeName,
+                    $artifactDef->outputPath
+                ),
+                'template'     => $template,
+                'context'      => $contextBlock,
+                'rules'        => $artifactDef->deps,
                 'dependencies' => $dependencies,
             ], JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR));
             return Command::SUCCESS;
