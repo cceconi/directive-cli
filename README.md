@@ -42,4 +42,4 @@ directive --version
 
 ## License
 
-MIT — © Christian CECONI
+MIT
