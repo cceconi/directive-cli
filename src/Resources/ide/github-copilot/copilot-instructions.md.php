@@ -1,0 +1,5 @@
+<?php
+
+/** @var string $projectName */
+/** @var string $namespace */
+return "# GitHub Copilot Instructions — " . $projectName . "\n\n## Project\n\nPHP 8.4 project scaffolded with [Directive](https://github.com/cceconi/directive).\n\n- **Namespace**: `" . $namespace . "`\n- **Framework**: Symfony Console\n- **Quality**: phpstan level 8, pest 3, php-cs-fixer PSR12+PHP84Migration\n\n## Rules\n\n- Always `declare(strict_types=1)` at the top of every PHP file.\n- Use `readonly` classes and properties whenever possible.\n- Prefer constructor promotion.\n- No `mixed` types.\n- All tests in `tests/` using Pest 3 syntax.\n- All code changes must pass phpstan level 8 without errors.\n\n## Workflow\n\nUse the slash commands below to drive structured changes:\n- `/directive-new` — Start a new change\n- `/directive-continue` — Progress to the next artifact\n- `/directive-apply` — Implement tasks\n- `/directive-verify` — Verify implementation\n- `/directive-reflect` — Write a reflection after delivery\n- `/directive-learn` — Capture lessons learned\n- `/directive-archive` — Archive the change\n";
