@@ -5,23 +5,25 @@ declare(strict_types=1);
 use Directive\Cli\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-beforeEach(function (): void {
-    $this->tmpDir = sys_get_temp_dir() . '/directive-instructions-test-' . uniqid();
-    mkdir($this->tmpDir . '/directive-spec/context', 0777, true);
-    mkdir($this->tmpDir . '/openspec/changes/my-change', 0777, true);
+$tmpDir = '';
+
+beforeEach(function () use (&$tmpDir): void {
+    $tmpDir = sys_get_temp_dir() . '/directive-instructions-test-' . uniqid();
+    mkdir($tmpDir . '/directive-spec/context', 0777, true);
+    mkdir($tmpDir . '/openspec/changes/my-change', 0777, true);
 
     file_put_contents(
-        $this->tmpDir . '/directive-spec/context/common.yaml',
+        $tmpDir . '/directive-spec/context/common.yaml',
         "project:\n  name: TestProject\ncontext:\n  namespace: TestNs\n  stack: php\nspecs:\n  path: openspec/specs\nchanges:\n  path: openspec/changes\n"
     );
 });
 
-afterEach(function (): void {
+afterEach(function () use (&$tmpDir): void {
     chdir(dirname(dirname(__DIR__)));
 });
 
-it('returns template for proposal artifact', function (): void {
-    chdir($this->tmpDir);
+it('returns template for proposal artifact', function () use (&$tmpDir): void {
+    chdir($tmpDir);
 
     $app = new Application();
     $tester = new CommandTester($app->find('change:instructions'));
@@ -31,8 +33,8 @@ it('returns template for proposal artifact', function (): void {
         ->and($tester->getDisplay())->toContain('proposal');
 });
 
-it('returns JSON with correct structure', function (): void {
-    chdir($this->tmpDir);
+it('returns JSON with correct structure', function () use (&$tmpDir): void {
+    chdir($tmpDir);
 
     $app = new Application();
     $tester = new CommandTester($app->find('change:instructions'));
@@ -51,8 +53,8 @@ it('returns JSON with correct structure', function (): void {
         ->and($json)->toHaveKey('dependencies');
 });
 
-it('injects project context', function (): void {
-    chdir($this->tmpDir);
+it('injects project context', function () use (&$tmpDir): void {
+    chdir($tmpDir);
 
     $app = new Application();
     $tester = new CommandTester($app->find('change:instructions'));
@@ -65,8 +67,8 @@ it('injects project context', function (): void {
     expect($json['context'])->toContain('TestProject');
 });
 
-it('fails for unknown artifact', function (): void {
-    chdir($this->tmpDir);
+it('fails for unknown artifact', function () use (&$tmpDir): void {
+    chdir($tmpDir);
 
     $app = new Application();
     $tester = new CommandTester($app->find('change:instructions'));
@@ -75,8 +77,8 @@ it('fails for unknown artifact', function (): void {
     expect($tester->getStatusCode())->toBe(1);
 });
 
-it('fails when --change is missing', function (): void {
-    chdir($this->tmpDir);
+it('fails when --change is missing', function () use (&$tmpDir): void {
+    chdir($tmpDir);
 
     $app = new Application();
     $tester = new CommandTester($app->find('change:instructions'));
