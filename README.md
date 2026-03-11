@@ -1,6 +1,8 @@
+<a href="https://directivephp.com"><img src="assets/logo-full-dark.svg" width="300" alt="Directive"/></a>
+
 # Directive CLI
 
-Directive is a PHP framework for AI-assisted development — a structured way to build software with a language model as your co-developer, working from specs rather than vibes.
+Directive is a PHP framework for AI-assisted development — a structured way to build software with a language model as your co-developer, working from specs rather than vibes. Directive CLI is its developer experience layer: the terminal tool and IDE workflow that make this possible.
 
 ---
 
