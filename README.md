@@ -89,7 +89,7 @@ directive --version
 
 ## Acknowledgements
 
-Directive's spec-driven workflow is inspired by [OpenSpec](https://github.com/openspec-dev/openspec), an excellent tool for AI-assisted development built around structured artifact workflows. Directive is an independent implementation — not a fork — adapted for the PHP ecosystem and licensed under MIT, as OpenSpec is.
+Directive's spec-driven workflow is inspired by [OpenSpec](https://openspec.dev/), an excellent tool for AI-assisted development built around structured artifact workflows. Directive is an independent implementation — not a fork — adapted for the PHP ecosystem and licensed under MIT, as OpenSpec is.
 
 ---
 
