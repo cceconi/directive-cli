@@ -5,22 +5,24 @@ declare(strict_types=1);
 use Directive\Cli\Config\DirectiveConfigLoader;
 use Directive\Cli\Config\Exception\ConfigNotFoundException;
 
-beforeEach(function (): void {
-    $this->tmpDir = sys_get_temp_dir() . '/directive-config-test-' . uniqid();
-    mkdir($this->tmpDir . '/directive-spec/context', 0777, true);
+$tmpDir = '';
+
+beforeEach(function () use (&$tmpDir): void {
+    $tmpDir = sys_get_temp_dir() . '/directive-config-test-' . uniqid();
+    mkdir($tmpDir . '/directive-spec/context', 0777, true);
 });
 
-afterEach(function (): void {
+afterEach(function () use (&$tmpDir): void {
     chdir(dirname(dirname(__DIR__)));
 });
 
-it('loads common.yaml successfully', function (): void {
-    file_put_contents(
-        $this->tmpDir . '/directive-spec/context/common.yaml',
+it('loads common.yaml successfully', function () use (&$tmpDir): void {
+   file_put_contents(
+        $tmpDir . '/directive-spec/context/common.yaml',
         "project:\n  name: TestProject\ncontext:\n  namespace: TestNs\n  stack: php\nspecs:\n  path: openspec/specs\nchanges:\n  path: openspec/changes\n"
     );
 
-    $config = (new DirectiveConfigLoader())->load($this->tmpDir);
+    $config = (new DirectiveConfigLoader())->load($tmpDir);
 
     expect($config->projectName)->toBe('TestProject')
         ->and($config->namespace)->toBe('TestNs')
@@ -30,17 +32,17 @@ it('loads common.yaml successfully', function (): void {
         ->and($config->stackFiles)->toBe([]);
 });
 
-it('throws ConfigNotFoundException when file is missing', function (): void {
-    expect(fn () => (new DirectiveConfigLoader())->load($this->tmpDir))
+it('throws ConfigNotFoundException when file is missing', function () use (&$tmpDir): void {
+    expect(fn () => (new DirectiveConfigLoader())->load($tmpDir))
         ->toThrow(ConfigNotFoundException::class);
 });
 
-it('throws ConfigNotFoundException when required key is missing', function (): void {
+it('throws ConfigNotFoundException when required key is missing', function () use (&$tmpDir): void {
     file_put_contents(
-        $this->tmpDir . '/directive-spec/context/common.yaml',
+        $tmpDir . '/directive-spec/context/common.yaml',
         "project:\n  name: TestProject\ncontext:\n  namespace: TestNs\nspecs:\n  path: openspec/specs\nchanges:\n  path: openspec/changes\n"
     );
 
-    expect(fn () => (new DirectiveConfigLoader())->load($this->tmpDir))
+    expect(fn () => (new DirectiveConfigLoader())->load($tmpDir))
         ->toThrow(ConfigNotFoundException::class);
 });

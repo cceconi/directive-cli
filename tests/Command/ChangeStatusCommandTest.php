@@ -5,23 +5,25 @@ declare(strict_types=1);
 use Directive\Cli\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 
-beforeEach(function (): void {
-    $this->tmpDir = sys_get_temp_dir() . '/directive-status-test-' . uniqid();
-    mkdir($this->tmpDir . '/directive-spec/context', 0777, true);
-    mkdir($this->tmpDir . '/openspec/changes/my-change', 0777, true);
+$tmpDir = '';
+
+beforeEach(function () use (&$tmpDir): void {
+    $tmpDir = sys_get_temp_dir() . '/directive-status-test-' . uniqid();
+    mkdir($tmpDir . '/directive-spec/context', 0777, true);
+    mkdir($tmpDir . '/openspec/changes/my-change', 0777, true);
 
     file_put_contents(
-        $this->tmpDir . '/directive-spec/context/common.yaml',
+        $tmpDir . '/directive-spec/context/common.yaml',
         "project:\n  name: TestProject\ncontext:\n  namespace: TestNs\n  stack: php\nspecs:\n  path: openspec/specs\nchanges:\n  path: openspec/changes\n"
     );
 });
 
-afterEach(function (): void {
+afterEach(function () use (&$tmpDir): void {
     chdir(dirname(dirname(__DIR__)));
 });
 
-it('reports proposal as ready and others as blocked when change is empty', function (): void {
-    chdir($this->tmpDir);
+it('reports proposal as ready and others as blocked when change is empty', function () use (&$tmpDir): void {
+    chdir($tmpDir);
 
     $app = new Application();
     $tester = new CommandTester($app->find('change:status'));
@@ -42,9 +44,9 @@ it('reports proposal as ready and others as blocked when change is empty', funct
         ->and($statuses['tasks'])->toBe('blocked');
 });
 
-it('reports design and specs as ready once proposal is done', function (): void {
-    file_put_contents($this->tmpDir . '/openspec/changes/my-change/proposal.md', '# Proposal');
-    chdir($this->tmpDir);
+it('reports design and specs as ready once proposal is done', function () use (&$tmpDir): void {
+    file_put_contents($tmpDir . '/openspec/changes/my-change/proposal.md', '# Proposal');
+    chdir($tmpDir);
 
     $app = new Application();
     $tester = new CommandTester($app->find('change:status'));
@@ -59,13 +61,13 @@ it('reports design and specs as ready once proposal is done', function (): void 
         ->and($statuses['tasks'])->toBe('blocked');
 });
 
-it('reports complete when all artifacts are done', function (): void {
-    file_put_contents($this->tmpDir . '/openspec/changes/my-change/proposal.md', '# Proposal');
-    file_put_contents($this->tmpDir . '/openspec/changes/my-change/design.md', '# Design');
-    mkdir($this->tmpDir . '/openspec/changes/my-change/specs', 0777, true);
-    file_put_contents($this->tmpDir . '/openspec/changes/my-change/specs/specs.md', '# Specs');
-    file_put_contents($this->tmpDir . '/openspec/changes/my-change/tasks.md', '# Tasks');
-    chdir($this->tmpDir);
+it('reports complete when all artifacts are done', function () use (&$tmpDir): void {
+    file_put_contents($tmpDir . '/openspec/changes/my-change/proposal.md', '# Proposal');
+    file_put_contents($tmpDir . '/openspec/changes/my-change/design.md', '# Design');
+    mkdir($tmpDir . '/openspec/changes/my-change/specs', 0777, true);
+    file_put_contents($tmpDir . '/openspec/changes/my-change/specs/specs.md', '# Specs');
+    file_put_contents($tmpDir . '/openspec/changes/my-change/tasks.md', '# Tasks');
+    chdir($tmpDir);
 
     $app = new Application();
     $tester = new CommandTester($app->find('change:status'));
@@ -76,8 +78,8 @@ it('reports complete when all artifacts are done', function (): void {
     expect($json['isComplete'])->toBeTrue();
 });
 
-it('fails when change directory does not exist', function (): void {
-    chdir($this->tmpDir);
+it('fails when change directory does not exist', function () use (&$tmpDir): void {
+    chdir($tmpDir);
 
     $app = new Application();
     $tester = new CommandTester($app->find('change:status'));
