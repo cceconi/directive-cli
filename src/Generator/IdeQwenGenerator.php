@@ -18,12 +18,13 @@ final class IdeQwenGenerator implements GeneratorInterface
         $dir = $context->projectDir;
         $projectName = $context->projectName;
 
-        // 12 commands
-        $commands = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
-        foreach ($commands as $command) {
+        foreach (ProjectContext::COMMANDS as $command) {
+            /** @var array{description: string, body: string} $workflow */
+            $workflow = include __DIR__ . '/../Resources/workflows/' . $command . '.php';
+            $frontmatter = "---\ndescription: " . $workflow['description'] . " for " . $projectName . "\n---\n\n";
             $fs->dumpFile(
                 $dir . '/.qwen/commands/' . $command . '.md',
-                (string) include __DIR__ . '/../Resources/ide/qwen/commands/' . $command . '.md.php'
+                $frontmatter . $workflow['body'],
             );
         }
     }

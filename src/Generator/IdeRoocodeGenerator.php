@@ -18,12 +18,14 @@ final class IdeRoocodeGenerator implements GeneratorInterface
         $dir = $context->projectDir;
         $projectName = $context->projectName;
 
-        // 12 commands
-        $commands = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
-        foreach ($commands as $command) {
+        foreach (ProjectContext::COMMANDS as $command) {
+            /** @var array{description: string, body: string} $workflow */
+            $workflow = include __DIR__ . '/../Resources/workflows/' . $command . '.php';
+            $label = ProjectContext::LABELS[$command];
+            $header = "# " . $projectName . " — Directive: " . $label . "\n\n";
             $fs->dumpFile(
                 $dir . '/.roo/commands/' . $command . '.md',
-                (string) include __DIR__ . '/../Resources/ide/roocode/commands/' . $command . '.md.php'
+                $header . $workflow['body'],
             );
         }
     }

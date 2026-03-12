@@ -18,12 +18,14 @@ final class IdeContinueGenerator implements GeneratorInterface
         $dir = $context->projectDir;
         $projectName = $context->projectName;
 
-        // 12 prompts
-        $prompts = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
-        foreach ($prompts as $prompt) {
+        foreach (ProjectContext::COMMANDS as $command) {
+            /** @var array{description: string, body: string} $workflow */
+            $workflow = include __DIR__ . '/../Resources/workflows/' . $command . '.php';
+            $label = ProjectContext::LABELS[$command];
+            $frontmatter = "---\nname: \"Directive: " . $label . "\"\ndescription: " . $workflow['description'] . " for " . $projectName . "\ninvokable: true\n---\n\n";
             $fs->dumpFile(
-                $dir . '/.continue/prompts/' . $prompt . '.prompt',
-                (string) include __DIR__ . '/../Resources/ide/continue/prompts/' . $prompt . '.prompt.php'
+                $dir . '/.continue/prompts/' . $command . '.prompt',
+                $frontmatter . $workflow['body'],
             );
         }
     }

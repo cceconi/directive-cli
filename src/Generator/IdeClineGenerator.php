@@ -18,12 +18,14 @@ final class IdeClineGenerator implements GeneratorInterface
         $dir = $context->projectDir;
         $projectName = $context->projectName;
 
-        // 12 workflows
-        $workflows = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
-        foreach ($workflows as $workflow) {
+        foreach (ProjectContext::COMMANDS as $command) {
+            /** @var array{description: string, body: string} $workflow */
+            $workflow = include __DIR__ . '/../Resources/workflows/' . $command . '.php';
+            $label = ProjectContext::LABELS[$command];
+            $header = "# " . $projectName . " — Directive: " . $label . "\n\n";
             $fs->dumpFile(
-                $dir . '/.clinerules/workflows/' . $workflow . '.md',
-                (string) include __DIR__ . '/../Resources/ide/cline/workflows/' . $workflow . '.md.php'
+                $dir . '/.clinerules/workflows/' . $command . '.md',
+                $header . $workflow['body'],
             );
         }
     }

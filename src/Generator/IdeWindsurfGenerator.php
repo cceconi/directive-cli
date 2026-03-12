@@ -18,12 +18,14 @@ final class IdeWindsurfGenerator implements GeneratorInterface
         $dir = $context->projectDir;
         $projectName = $context->projectName;
 
-        // 12 workflows
-        $workflows = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
-        foreach ($workflows as $workflow) {
+        foreach (ProjectContext::COMMANDS as $command) {
+            /** @var array{description: string, body: string} $workflow */
+            $workflow = include __DIR__ . '/../Resources/workflows/' . $command . '.php';
+            $label = ProjectContext::LABELS[$command];
+            $frontmatter = "---\nname: \"Directive: " . $label . "\"\ndescription: " . $workflow['description'] . " for " . $projectName . "\ncategory: Workflow\ntags: [directive, workflow]\n---\n\n";
             $fs->dumpFile(
-                $dir . '/.windsurf/workflows/' . $workflow . '.md',
-                (string) include __DIR__ . '/../Resources/ide/windsurf/workflows/' . $workflow . '.md.php'
+                $dir . '/.windsurf/workflows/' . $command . '.md',
+                $frontmatter . $workflow['body'],
             );
         }
     }

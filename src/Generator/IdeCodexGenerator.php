@@ -15,15 +15,15 @@ final class IdeCodexGenerator implements GeneratorInterface
         }
 
         $fs = new Filesystem();
-        $dir = $context->projectDir;
         $projectName = $context->projectName;
 
-        // 12 prompts (global ~/.codex/prompts/)
-        $prompts = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
-        foreach ($prompts as $prompt) {
+        foreach (ProjectContext::COMMANDS as $command) {
+            /** @var array{description: string, body: string} $workflow */
+            $workflow = include __DIR__ . '/../Resources/workflows/' . $command . '.php';
+            $frontmatter = "---\ndescription: " . $workflow['description'] . " for " . $projectName . "\nargument-hint: \"<change-name or description>\"\n---\n\n";
             $fs->dumpFile(
-                (string) getenv('HOME') . '/.codex/prompts/' . $prompt . '.md',
-                (string) include __DIR__ . '/../Resources/ide/codex/prompts/' . $prompt . '.md.php'
+                (string) getenv('HOME') . '/.codex/prompts/' . $command . '.md',
+                $frontmatter . $workflow['body'],
             );
         }
     }

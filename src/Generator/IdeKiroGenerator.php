@@ -18,12 +18,13 @@ final class IdeKiroGenerator implements GeneratorInterface
         $dir = $context->projectDir;
         $projectName = $context->projectName;
 
-        // 12 prompts
-        $prompts = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
-        foreach ($prompts as $prompt) {
+        foreach (ProjectContext::COMMANDS as $command) {
+            /** @var array{description: string, body: string} $workflow */
+            $workflow = include __DIR__ . '/../Resources/workflows/' . $command . '.php';
+            $frontmatter = "---\ndescription: " . $workflow['description'] . " for " . $projectName . "\n---\n\n";
             $fs->dumpFile(
-                $dir . '/.kiro/prompts/' . $prompt . '.prompt.md',
-                (string) include __DIR__ . '/../Resources/ide/kiro/prompts/' . $prompt . '.prompt.md.php'
+                $dir . '/.kiro/prompts/' . $command . '.prompt.md',
+                $frontmatter . $workflow['body'],
             );
         }
     }

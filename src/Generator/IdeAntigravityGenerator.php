@@ -18,12 +18,13 @@ final class IdeAntigravityGenerator implements GeneratorInterface
         $dir = $context->projectDir;
         $projectName = $context->projectName;
 
-        $workflowFiles = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
-
-        foreach ($workflowFiles as $workflow) {
+        foreach (ProjectContext::COMMANDS as $command) {
+            /** @var array{description: string, body: string} $workflow */
+            $workflow = include __DIR__ . '/../Resources/workflows/' . $command . '.php';
+            $frontmatter = "---\ndescription: " . $workflow['description'] . " for " . $projectName . "\n---\n\n";
             $fs->dumpFile(
-                $dir . '/.agent/workflows/' . $workflow . '.md',
-                (string) include __DIR__ . '/../Resources/ide/antigravity/workflows/' . $workflow . '.md.php'
+                $dir . '/.agent/workflows/' . $command . '.md',
+                $frontmatter . $workflow['body'],
             );
         }
     }

@@ -18,12 +18,14 @@ final class IdeGeminiGenerator implements GeneratorInterface
         $dir = $context->projectDir;
         $projectName = $context->projectName;
 
-        // 12 commands (TOML format)
-        $commands = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
-        foreach ($commands as $command) {
+        foreach (ProjectContext::COMMANDS as $command) {
+            /** @var array{description: string, body: string} $workflow */
+            $workflow = include __DIR__ . '/../Resources/workflows/' . $command . '.php';
+            $content = "description = \"" . $workflow['description'] . " for " . $projectName . "\"\n"
+                . "prompt = \"\"\"\n" . $workflow['body'] . "\n\"\"\"\n";
             $fs->dumpFile(
                 $dir . '/.gemini/commands/dtsx/' . $command . '.toml',
-                (string) include __DIR__ . '/../Resources/ide/gemini/commands/' . $command . '.toml.php'
+                $content,
             );
         }
     }
