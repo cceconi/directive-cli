@@ -42,16 +42,6 @@ it('generates all github copilot files for github-copilot tool', function (): vo
         expect($tmpDir . '/.github/prompts/' . $prompt . '.prompt.md')->toBeFile($prompt);
     }
 
-    // Skills
-    $skills = [
-        'directive-new-change', 'directive-continue-change', 'directive-apply-change',
-        'directive-verify-change', 'directive-reflect-change', 'directive-learn-change',
-        'directive-archive-change', 'directive-project-context', 'directive-stack-context', 'directive-discuss-context', 'directive-evaluate-context', 'directive-kickoff-context',
-    ];
-    foreach ($skills as $skill) {
-        expect($tmpDir . '/.github/skills/' . $skill . '/SKILL.md')->toBeFile($skill);
-    }
-
     $fs->remove($tmpDir);
 });
 

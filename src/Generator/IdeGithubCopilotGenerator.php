@@ -34,13 +34,5 @@ final class IdeGithubCopilotGenerator implements GeneratorInterface
             );
         }
 
-        // 10 skills
-        $skills = ['directive-new-change', 'directive-continue-change', 'directive-apply-change', 'directive-verify-change', 'directive-reflect-change', 'directive-learn-change', 'directive-archive-change', 'directive-project-context', 'directive-stack-context', 'directive-discuss-context', 'directive-evaluate-context', 'directive-kickoff-context'];
-        foreach ($skills as $skill) {
-            $fs->dumpFile(
-                $dir . '/.github/skills/' . $skill . '/SKILL.md',
-                (string) include __DIR__ . '/../Resources/ide/github-copilot/skills/' . $skill . '/SKILL.md.php'
-            );
-        }
     }
 }
