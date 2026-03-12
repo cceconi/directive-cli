@@ -36,7 +36,7 @@ it('generates all github copilot files for github-copilot tool', function (): vo
     $prompts = [
         'directive-new', 'directive-continue', 'directive-apply', 'directive-verify',
         'directive-reflect', 'directive-learn', 'directive-archive',
-        'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate',
+        'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff',
     ];
     foreach ($prompts as $prompt) {
         expect($tmpDir . '/.github/prompts/' . $prompt . '.prompt.md')->toBeFile($prompt);
@@ -46,7 +46,7 @@ it('generates all github copilot files for github-copilot tool', function (): vo
     $skills = [
         'directive-new-change', 'directive-continue-change', 'directive-apply-change',
         'directive-verify-change', 'directive-reflect-change', 'directive-learn-change',
-        'directive-archive-change', 'directive-project-context', 'directive-stack-context', 'directive-discuss-context', 'directive-evaluate-context',
+        'directive-archive-change', 'directive-project-context', 'directive-stack-context', 'directive-discuss-context', 'directive-evaluate-context', 'directive-kickoff-context',
     ];
     foreach ($skills as $skill) {
         expect($tmpDir . '/.github/skills/' . $skill . '/SKILL.md')->toBeFile($skill);
@@ -97,7 +97,7 @@ it('generates all cursor prompt files for cursor tool', function (): void {
     $prompts = [
         'directive-new', 'directive-continue', 'directive-apply', 'directive-verify',
         'directive-reflect', 'directive-learn',
-        'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate',
+        'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff',
     ];
     foreach ($prompts as $prompt) {
         expect($tmpDir . '/.cursor/prompts/' . $prompt . '.md')->toBeFile($prompt);
@@ -127,7 +127,7 @@ it('generates all claude command files for claude tool', function (): void {
     $commands = [
         'directive-new', 'directive-continue', 'directive-apply', 'directive-verify',
         'directive-reflect', 'directive-learn',
-        'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate',
+        'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff',
     ];
     foreach ($commands as $command) {
         expect($tmpDir . '/.claude/commands/' . $command . '.md')->toBeFile($command);
@@ -158,7 +158,7 @@ it('generates all antigravity files for antigravity tool', function (): void {
     $workflows = [
         'new-change', 'continue-change', 'apply-change', 'verify-change',
         'reflect-change', 'learn-change', 'archive-change',
-        'project-context', 'stack-context', 'discuss-session', 'evaluate-session',
+        'project-context', 'stack-context', 'discuss-session', 'evaluate-session', 'kickoff-session',
     ];
     foreach ($workflows as $workflow) {
         expect($tmpDir . '/.agent/workflows/' . $workflow . '.md')->toBeFile($workflow);
@@ -168,7 +168,7 @@ it('generates all antigravity files for antigravity tool', function (): void {
     $skills = [
         'directive-new-change', 'directive-continue-change', 'directive-apply-change',
         'directive-verify-change', 'directive-reflect-change', 'directive-learn-change',
-        'directive-archive-change', 'directive-project-context', 'directive-stack-context', 'directive-discuss-context', 'directive-evaluate-context',
+        'directive-archive-change', 'directive-project-context', 'directive-stack-context', 'directive-discuss-context', 'directive-evaluate-context', 'directive-kickoff-context',
     ];
     foreach ($skills as $skill) {
         expect($tmpDir . '/.agent/skills/' . $skill . '/SKILL.md')->toBeFile($skill);

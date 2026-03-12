@@ -26,7 +26,7 @@ final class IdeGithubCopilotGenerator implements GeneratorInterface
         );
 
         // 10 prompts
-        $prompts = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate'];
+        $prompts = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
         foreach ($prompts as $prompt) {
             $fs->dumpFile(
                 $dir . '/.github/prompts/' . $prompt . '.prompt.md',
@@ -35,7 +35,7 @@ final class IdeGithubCopilotGenerator implements GeneratorInterface
         }
 
         // 10 skills
-        $skills = ['directive-new-change', 'directive-continue-change', 'directive-apply-change', 'directive-verify-change', 'directive-reflect-change', 'directive-learn-change', 'directive-archive-change', 'directive-project-context', 'directive-stack-context', 'directive-discuss-context', 'directive-evaluate-context'];
+        $skills = ['directive-new-change', 'directive-continue-change', 'directive-apply-change', 'directive-verify-change', 'directive-reflect-change', 'directive-learn-change', 'directive-archive-change', 'directive-project-context', 'directive-stack-context', 'directive-discuss-context', 'directive-evaluate-context', 'directive-kickoff-context'];
         foreach ($skills as $skill) {
             $fs->dumpFile(
                 $dir . '/.github/skills/' . $skill . '/SKILL.md',
