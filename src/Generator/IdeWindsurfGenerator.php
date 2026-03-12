@@ -17,8 +17,14 @@ final class IdeWindsurfGenerator implements GeneratorInterface
         $fs = new Filesystem();
         $dir = $context->projectDir;
         $projectName = $context->projectName;
-        $namespace = $context->namespace;
 
-        $fs->dumpFile($dir . '/.windsurfrules', (string) include __DIR__ . '/../Resources/ide/windsurf/windsurfrules.php');
+        // 12 workflows
+        $workflows = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
+        foreach ($workflows as $workflow) {
+            $fs->dumpFile(
+                $dir . '/.windsurf/workflows/' . $workflow . '.md',
+                (string) include __DIR__ . '/../Resources/ide/windsurf/workflows/' . $workflow . '.md.php'
+            );
+        }
     }
 }

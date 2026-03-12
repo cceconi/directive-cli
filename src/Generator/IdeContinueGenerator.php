@@ -17,8 +17,14 @@ final class IdeContinueGenerator implements GeneratorInterface
         $fs = new Filesystem();
         $dir = $context->projectDir;
         $projectName = $context->projectName;
-        $namespace = $context->namespace;
 
-        $fs->dumpFile($dir . '/.continue/config.yaml', (string) include __DIR__ . '/../Resources/ide/continue/config.yaml.php');
+        // 12 prompts
+        $prompts = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
+        foreach ($prompts as $prompt) {
+            $fs->dumpFile(
+                $dir . '/.continue/prompts/' . $prompt . '.prompt',
+                (string) include __DIR__ . '/../Resources/ide/continue/prompts/' . $prompt . '.prompt.php'
+            );
+        }
     }
 }

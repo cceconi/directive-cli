@@ -17,15 +17,8 @@ final class IdeGithubCopilotGenerator implements GeneratorInterface
         $fs = new Filesystem();
         $dir = $context->projectDir;
         $projectName = $context->projectName;
-        $namespace = $context->namespace;
 
-        // .github/copilot-instructions.md
-        $fs->dumpFile(
-            $dir . '/.github/copilot-instructions.md',
-            (string) include __DIR__ . '/../Resources/ide/github-copilot/copilot-instructions.md.php'
-        );
-
-        // 10 prompts
+        // 12 prompts
         $prompts = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
         foreach ($prompts as $prompt) {
             $fs->dumpFile(

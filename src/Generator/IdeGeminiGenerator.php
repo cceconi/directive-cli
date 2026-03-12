@@ -17,8 +17,14 @@ final class IdeGeminiGenerator implements GeneratorInterface
         $fs = new Filesystem();
         $dir = $context->projectDir;
         $projectName = $context->projectName;
-        $namespace = $context->namespace;
 
-        $fs->dumpFile($dir . '/GEMINI.md', (string) include __DIR__ . '/../Resources/ide/gemini/GEMINI.md.php');
+        // 12 commands (TOML format)
+        $commands = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
+        foreach ($commands as $command) {
+            $fs->dumpFile(
+                $dir . '/.gemini/commands/dtsx/' . $command . '.toml',
+                (string) include __DIR__ . '/../Resources/ide/gemini/commands/' . $command . '.toml.php'
+            );
+        }
     }
 }

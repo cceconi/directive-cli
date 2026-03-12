@@ -17,8 +17,14 @@ final class IdeRoocodeGenerator implements GeneratorInterface
         $fs = new Filesystem();
         $dir = $context->projectDir;
         $projectName = $context->projectName;
-        $namespace = $context->namespace;
 
-        $fs->dumpFile($dir . '/.roo/rules/project.md', (string) include __DIR__ . '/../Resources/ide/roocode/rules-project.md.php');
+        // 12 commands
+        $commands = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
+        foreach ($commands as $command) {
+            $fs->dumpFile(
+                $dir . '/.roo/commands/' . $command . '.md',
+                (string) include __DIR__ . '/../Resources/ide/roocode/commands/' . $command . '.md.php'
+            );
+        }
     }
 }

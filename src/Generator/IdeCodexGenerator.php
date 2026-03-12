@@ -17,8 +17,14 @@ final class IdeCodexGenerator implements GeneratorInterface
         $fs = new Filesystem();
         $dir = $context->projectDir;
         $projectName = $context->projectName;
-        $namespace = $context->namespace;
 
-        $fs->dumpFile($dir . '/AGENTS.md', (string) include __DIR__ . '/../Resources/ide/codex/AGENTS.md.php');
+        // 12 prompts (global ~/.codex/prompts/)
+        $prompts = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
+        foreach ($prompts as $prompt) {
+            $fs->dumpFile(
+                (string) getenv('HOME') . '/.codex/prompts/' . $prompt . '.md',
+                (string) include __DIR__ . '/../Resources/ide/codex/prompts/' . $prompt . '.md.php'
+            );
+        }
     }
 }

@@ -21,7 +21,7 @@ use Directive\Cli\Generator\IdeGithubCopilotGenerator;
 use Directive\Cli\Generator\IdeKiroGenerator;
 use Directive\Cli\Generator\IdeRoocodeGenerator;
 use Directive\Cli\Generator\IdeWindsurfGenerator;
-use Directive\Cli\Generator\IdeZedGenerator;
+use Directive\Cli\Generator\IdeQwenGenerator;
 use Symfony\Component\Console\Application as BaseApplication;
 
 final class Application extends BaseApplication
@@ -46,7 +46,7 @@ final class Application extends BaseApplication
             new IdeCodexGenerator(),
             new IdeKiroGenerator(),
             new IdeGeminiGenerator(),
-            new IdeZedGenerator(),
+            new IdeQwenGenerator(),
         ]));
     }
 }

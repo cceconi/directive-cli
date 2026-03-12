@@ -17,13 +17,9 @@ final class IdeClaudeGenerator implements GeneratorInterface
         $fs = new Filesystem();
         $dir = $context->projectDir;
         $projectName = $context->projectName;
-        $namespace = $context->namespace;
 
-        // CLAUDE.md
-        $fs->dumpFile($dir . '/CLAUDE.md', (string) include __DIR__ . '/../Resources/ide/claude/CLAUDE.md.php');
-
-        // 8 commands
-        $commands = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
+        // 12 commands
+        $commands = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff'];
         foreach ($commands as $command) {
             $fs->dumpFile(
                 $dir . '/.claude/commands/' . $command . '.md',

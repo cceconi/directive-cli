@@ -32,7 +32,6 @@ final class NewProjectCommand extends Command
         'kiro',
         'gemini',
         'antigravity',
-        'zed',
         'none',
     ];
 
