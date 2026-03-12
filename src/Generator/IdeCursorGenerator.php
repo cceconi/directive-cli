@@ -23,7 +23,7 @@ final class IdeCursorGenerator implements GeneratorInterface
         $fs->dumpFile($dir . '/.cursor/rules', (string) include __DIR__ . '/../Resources/ide/cursor/rules.php');
 
         // 9 prompts
-        $prompts = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-project', 'directive-stack', 'directive-discuss'];
+        $prompts = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate'];
         foreach ($prompts as $prompt) {
             $fs->dumpFile(
                 $dir . '/.cursor/prompts/' . $prompt . '.md',
