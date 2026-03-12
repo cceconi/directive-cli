@@ -18,7 +18,7 @@ final class IdeAntigravityGenerator implements GeneratorInterface
         $dir = $context->projectDir;
         $projectName = $context->projectName;
 
-        $workflowFiles = ['new-change', 'continue-change', 'apply-change', 'verify-change', 'reflect-change', 'learn-change', 'archive-change', 'project-context'];
+        $workflowFiles = ['new-change', 'continue-change', 'apply-change', 'verify-change', 'reflect-change', 'learn-change', 'archive-change', 'project-context', 'stack-context'];
 
         foreach ($workflowFiles as $workflow) {
             $fs->dumpFile(
@@ -27,7 +27,7 @@ final class IdeAntigravityGenerator implements GeneratorInterface
             );
         }
 
-        $skillDirs = ['directive-new-change', 'directive-continue-change', 'directive-apply-change', 'directive-verify-change', 'directive-reflect-change', 'directive-learn-change', 'directive-archive-change', 'directive-project-context'];
+        $skillDirs = ['directive-new-change', 'directive-continue-change', 'directive-apply-change', 'directive-verify-change', 'directive-reflect-change', 'directive-learn-change', 'directive-archive-change', 'directive-project-context', 'directive-stack-context'];
 
         foreach ($skillDirs as $skill) {
             $fs->dumpFile(

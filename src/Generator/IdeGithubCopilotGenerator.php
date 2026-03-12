@@ -25,8 +25,8 @@ final class IdeGithubCopilotGenerator implements GeneratorInterface
             (string) include __DIR__ . '/../Resources/ide/github-copilot/copilot-instructions.md.php'
         );
 
-        // 8 prompts
-        $prompts = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project'];
+        // 9 prompts
+        $prompts = ['directive-new', 'directive-continue', 'directive-apply', 'directive-verify', 'directive-reflect', 'directive-learn', 'directive-archive', 'directive-project', 'directive-stack'];
         foreach ($prompts as $prompt) {
             $fs->dumpFile(
                 $dir . '/.github/prompts/' . $prompt . '.prompt.md',
@@ -34,8 +34,8 @@ final class IdeGithubCopilotGenerator implements GeneratorInterface
             );
         }
 
-        // 8 skills
-        $skills = ['directive-new-change', 'directive-continue-change', 'directive-apply-change', 'directive-verify-change', 'directive-reflect-change', 'directive-learn-change', 'directive-archive-change', 'directive-project-context'];
+        // 9 skills
+        $skills = ['directive-new-change', 'directive-continue-change', 'directive-apply-change', 'directive-verify-change', 'directive-reflect-change', 'directive-learn-change', 'directive-archive-change', 'directive-project-context', 'directive-stack-context'];
         foreach ($skills as $skill) {
             $fs->dumpFile(
                 $dir . '/.github/skills/' . $skill . '/SKILL.md',
