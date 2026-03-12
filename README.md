@@ -45,6 +45,7 @@ Slash commands are invoked in your IDE chat (e.g. GitHub Copilot, Cursor). They 
 | `/dtsx-apply [<change>]` | Implement tasks (code + tests) |
 | `/dtsx-verify [<change>]` | Check implementation against specs and design |
 | `/dtsx-reflect [<change>]` | Update artifacts to match implementation reality |
+| `/dtsx-learn [<change>]` | Capitalise technical decisions from the change into spec context files |
 | `/dtsx-sync [<change>]` | Merge delta specs into main specs, keep change active |
 | `/dtsx-archive [<change>]` | Sync specs and archive a completed change |
 
@@ -74,7 +75,7 @@ Slash commands are invoked in your IDE chat (e.g. GitHub Copilot, Cursor). They 
 Install once globally on your machine:
 
 ```bash
-composer global require directive/cli
+composer global require cceconi/directive-cli
 ```
 
 Verify:
