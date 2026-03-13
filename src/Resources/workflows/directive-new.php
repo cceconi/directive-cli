@@ -68,5 +68,32 @@ Invoke `directive-continue` to create the next artifact.
 - If the name is invalid (not kebab-case), ask for a valid name before proceeding
 - If a change with that name already exists, suggest using `directive-continue` instead
 - Stop after writing `proposal.md` — do NOT advance to design, specs, or tasks
+## Git Addon
+
+> Applicable only if `git.agent_managed: true` in `directive-spec/context/common.yaml`.
+> If this key is absent or false, **ignore this section entirely**.
+
+### Git Step 1 — WIP commit (if needed)
+
+Check working directory status:
+```bash
+git status
+```
+
+If there are modified, added, or deleted files:
+```bash
+git add -A && git commit -m "wip: $(git branch --show-current)"
+```
+
+This commit is created automatically, without confirmation, regardless of `commit_mode`.
+
+### Git Step 2 — Create and switch to the change branch
+
+```bash
+git checkout -b <branch_prefix><change-name>
+```
+
+Where `<branch_prefix>` comes from `git.branch_prefix` (default: `feat/`).
+
 BODY;
 return ['description' => 'Start a new Directive change', 'body' => $body];

@@ -21,6 +21,7 @@ final readonly class ProjectContext
         'directive-discuss',
         'directive-evaluate',
         'directive-kickoff',
+        'directive-commit',
     ];
 
     public const array LABELS = [
@@ -38,6 +39,7 @@ final readonly class ProjectContext
         'directive-discuss'  => 'Discuss session',
         'directive-evaluate' => 'Evaluate session',
         'directive-kickoff'  => 'Kickoff session',
+        'directive-commit'   => 'Commit change',
     ];
 
     public function __construct(

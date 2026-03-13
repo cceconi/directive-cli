@@ -100,5 +100,32 @@ On pause:
 - Mark each task `[x]` immediately after completing it — do NOT batch completions
 - Pause on errors, blockers, or unclear requirements — do NOT guess
 - Keep code changes minimal and scoped to each task
+## Git Addon
+
+> Applicable only if `git.agent_managed: true` in `directive-spec/context/common.yaml`.
+> If this key is absent or false, **ignore this section entirely**.
+
+### Git Step 1 — WIP commit (if needed)
+
+If the current branch is not `<branch_prefix><change-name>`, first check the working directory:
+```bash
+git status
+```
+
+If there are modified, added, or deleted files:
+```bash
+git add -A && git commit -m "wip: $(git branch --show-current)"
+```
+
+This commit is created automatically, without confirmation, regardless of `commit_mode`.
+
+### Git Step 2 — Switch to the change branch
+
+```bash
+git checkout <branch_prefix><change-name>
+```
+
+If the current branch is already `<branch_prefix><change-name>`, skip this step entirely.
+
 BODY;
 return ['description' => 'Implement tasks from the active change', 'body' => $body];

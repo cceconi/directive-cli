@@ -35,11 +35,12 @@ it('generates github copilot prompts for github-copilot tool', function (): void
 
     (new IdeGithubCopilotGenerator())->generate($context);
 
-    // 12 prompts
+    // 13 prompts
     $prompts = [
         'directive-new', 'directive-continue', 'directive-apply', 'directive-verify',
         'directive-reflect', 'directive-learn', 'directive-archive',
         'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff',
+        'directive-commit',
     ];
     foreach ($prompts as $prompt) {
         expect($tmpDir . '/.github/prompts/' . $prompt . '.prompt.md')->toBeFile($prompt);
@@ -91,6 +92,7 @@ it('generates all cursor prompt files for cursor tool', function (): void {
         'directive-new', 'directive-continue', 'directive-apply', 'directive-verify',
         'directive-reflect', 'directive-learn', 'directive-archive',
         'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff',
+        'directive-commit',
     ];
     foreach ($prompts as $prompt) {
         expect($tmpDir . '/.cursor/prompts/' . $prompt . '.md')->toBeFile($prompt);
@@ -121,6 +123,7 @@ it('generates all claude command files for claude tool', function (): void {
         'directive-new', 'directive-continue', 'directive-apply', 'directive-verify',
         'directive-reflect', 'directive-learn', 'directive-archive',
         'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff',
+        'directive-commit',
     ];
     foreach ($commands as $command) {
         expect($tmpDir . '/.claude/commands/' . $command . '.md')->toBeFile($command);
@@ -152,6 +155,7 @@ it('generates all antigravity files for antigravity tool', function (): void {
         'directive-new', 'directive-continue', 'directive-apply', 'directive-verify',
         'directive-reflect', 'directive-learn', 'directive-archive',
         'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff',
+        'directive-commit',
     ];
     foreach ($workflows as $workflow) {
         expect($tmpDir . '/.agent/workflows/' . $workflow . '.md')->toBeFile($workflow);
@@ -182,6 +186,7 @@ it('generates windsurf workflows for windsurf tool', function (): void {
         'directive-new', 'directive-continue', 'directive-apply', 'directive-verify',
         'directive-reflect', 'directive-learn', 'directive-archive',
         'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff',
+        'directive-commit',
     ];
     foreach ($workflows as $workflow) {
         expect($tmpDir . '/.windsurf/workflows/' . $workflow . '.md')->toBeFile($workflow);
@@ -212,6 +217,7 @@ it('generates kiro prompts for kiro tool', function (): void {
         'directive-new', 'directive-continue', 'directive-apply', 'directive-verify',
         'directive-reflect', 'directive-learn', 'directive-archive',
         'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff',
+        'directive-commit',
     ];
     foreach ($prompts as $prompt) {
         expect($tmpDir . '/.kiro/prompts/' . $prompt . '.prompt.md')->toBeFile($prompt);
@@ -242,6 +248,7 @@ it('generates roocode commands for roocode tool', function (): void {
         'directive-new', 'directive-continue', 'directive-apply', 'directive-verify',
         'directive-reflect', 'directive-learn', 'directive-archive',
         'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff',
+        'directive-commit',
     ];
     foreach ($commands as $command) {
         expect($tmpDir . '/.roo/commands/' . $command . '.md')->toBeFile($command);
@@ -272,6 +279,7 @@ it('generates cline workflows for cline tool', function (): void {
         'directive-new', 'directive-continue', 'directive-apply', 'directive-verify',
         'directive-reflect', 'directive-learn', 'directive-archive',
         'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff',
+        'directive-commit',
     ];
     foreach ($workflows as $workflow) {
         expect($tmpDir . '/.clinerules/workflows/' . $workflow . '.md')->toBeFile($workflow);
@@ -303,6 +311,7 @@ it('generates codex prompts for codex tool', function (): void {
         'directive-new', 'directive-continue', 'directive-apply', 'directive-verify',
         'directive-reflect', 'directive-learn', 'directive-archive',
         'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff',
+        'directive-commit',
     ];
     foreach ($prompts as $prompt) {
         expect($homeDir . '/.codex/prompts/' . $prompt . '.md')->toBeFile($prompt);
@@ -333,6 +342,7 @@ it('generates continue prompts for continue tool', function (): void {
         'directive-new', 'directive-continue', 'directive-apply', 'directive-verify',
         'directive-reflect', 'directive-learn', 'directive-archive',
         'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff',
+        'directive-commit',
     ];
     foreach ($prompts as $prompt) {
         expect($tmpDir . '/.continue/prompts/' . $prompt . '.prompt')->toBeFile($prompt);
@@ -363,6 +373,7 @@ it('generates gemini commands for gemini tool', function (): void {
         'directive-new', 'directive-continue', 'directive-apply', 'directive-verify',
         'directive-reflect', 'directive-learn', 'directive-archive',
         'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff',
+        'directive-commit',
     ];
     foreach ($commands as $command) {
         expect($tmpDir . '/.gemini/commands/dtsx/' . $command . '.toml')->toBeFile($command);
@@ -393,6 +404,7 @@ it('generates qwen commands for qwen tool', function (): void {
         'directive-new', 'directive-continue', 'directive-apply', 'directive-verify',
         'directive-reflect', 'directive-learn', 'directive-archive',
         'directive-project', 'directive-stack', 'directive-discuss', 'directive-evaluate', 'directive-kickoff',
+        'directive-commit',
     ];
     foreach ($commands as $command) {
         expect($tmpDir . '/.qwen/commands/' . $command . '.md')->toBeFile($command);

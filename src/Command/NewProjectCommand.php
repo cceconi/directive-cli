@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Directive\Cli\Command;
 
+use Directive\Cli\Config\GitConfig;
 use Directive\Cli\Generator\GeneratorInterface;
 use Directive\Cli\Generator\ProjectContext;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -16,6 +17,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Yaml\Yaml;
 
 #[AsCommand(name: 'new', description: 'Create a new Directive project')]
 final class NewProjectCommand extends Command
@@ -36,8 +38,10 @@ final class NewProjectCommand extends Command
     ];
 
     /** @param GeneratorInterface[] $generators */
-    public function __construct(private readonly array $generators = [])
-    {
+    public function __construct(
+        private readonly array $generators = [],
+        private readonly GitConfigurationHelper $gitHelper = new GitConfigurationHelper(),
+    ) {
         parent::__construct();
     }
 
@@ -104,9 +108,76 @@ final class NewProjectCommand extends Command
             $generator->generate($context);
         }
 
+        // ── Git initialisation ────────────────────────────────────────────
+        if (!$this->gitHelper->isGitAvailable()) {
+            $io->warning(
+                'Git is not available on this system. '
+                . 'Install git and run `directive update-git` to configure the integration.'
+            );
+            $this->writeGitConfig($projectDir, new GitConfig(
+                agentManaged:  false,
+                defaultBranch: 'main',
+                baseBranch:    'main',
+            ));
+        } else {
+            $gitConfig = $this->gitHelper->askGitQuestions($io);
+            if ($gitConfig !== null) {
+                $this->gitHelper->initRepository($projectDir, $gitConfig->defaultBranch);
+                $this->gitHelper->configureLocalUser($projectDir);
+                $this->gitHelper->createInitialCommit($projectDir);
+                if ($gitConfig->strategy === 'gitflow') {
+                    $this->gitHelper->createDevelopBranch($projectDir, $gitConfig->defaultBranch);
+                }
+                $this->writeGitConfig($projectDir, $gitConfig);
+            }
+        }
+
         $io->success(sprintf('Project "%s" created successfully in %s', $projectName, $projectDir));
 
         return Command::SUCCESS;
+    }
+
+    private function writeGitConfig(string $projectDir, GitConfig $config): void
+    {
+        $configPath = $projectDir . '/directive-spec/context/common.yaml';
+
+        if (!file_exists($configPath)) {
+            return;
+        }
+
+        /** @var mixed $parsed */
+        $parsed = Yaml::parseFile($configPath);
+        /** @var array<string, mixed> $yaml */
+        $yaml = is_array($parsed) ? $parsed : [];
+
+        $yaml['git'] = $this->buildGitArray($config);
+
+        file_put_contents($configPath, Yaml::dump($yaml, 4, 2));
+    }
+
+    /** @return array<string, mixed> */
+    private function buildGitArray(GitConfig $config): array
+    {
+        if (!$config->agentManaged) {
+            return [
+                'agent_managed'  => false,
+                'default_branch' => $config->defaultBranch,
+            ];
+        }
+
+        $data = [
+            'agent_managed'  => true,
+            'default_branch' => $config->defaultBranch,
+            'base_branch'    => $config->baseBranch,
+            'strategy'       => $config->strategy,
+            'branch_prefix'  => $config->branchPrefix,
+            'commit_mode'    => $config->commitMode,
+            'commit_pattern' => $config->commitPattern,
+            'commit_template' => $config->commitTemplate !== '' ? $config->commitTemplate : null,
+            'remote'         => $config->remote,
+        ];
+
+        return $data;
     }
 
     private function toNamespace(string $projectName): string

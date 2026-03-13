@@ -8,6 +8,7 @@ use Directive\Cli\Command\ChangeNewCommand;
 use Directive\Cli\Command\ChangeInstructionsCommand;
 use Directive\Cli\Command\ChangeStatusCommand;
 use Directive\Cli\Command\NewProjectCommand;
+use Directive\Cli\Command\UpdateGitCommand;
 use Directive\Cli\Generator\CoreGenerator;
 use Directive\Cli\Generator\DockerGenerator;
 use Directive\Cli\Generator\IdeAntigravityGenerator;
@@ -32,6 +33,7 @@ final class Application extends BaseApplication
         $this->addCommand(new ChangeNewCommand());
         $this->addCommand(new ChangeStatusCommand());
         $this->addCommand(new ChangeInstructionsCommand());
+        $this->addCommand(new UpdateGitCommand());
         $this->addCommand(new NewProjectCommand([
             new CoreGenerator(),
             new DockerGenerator(),
