@@ -9,6 +9,7 @@ final readonly class ProjectContext
     public const array COMMANDS = [
         'directive-new',
         'directive-continue',
+        'directive-propose',
         'directive-apply',
         'directive-verify',
         'directive-reflect',
@@ -24,6 +25,7 @@ final readonly class ProjectContext
     public const array LABELS = [
         'directive-new'      => 'New change',
         'directive-continue' => 'Continue change',
+        'directive-propose'  => 'Propose change',
         'directive-apply'    => 'Apply change',
         'directive-verify'   => 'Verify change',
         'directive-reflect'  => 'Reflect change',
