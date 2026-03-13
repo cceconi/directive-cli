@@ -1,4 +1,4 @@
-<a href="https://directivephp.com"><img src="assets/logo-full-dark.svg" width="300" alt="Directive"/></a>
+<a href="https://directivephp.com"><img src="https://directivephp.com/assets/logo-full-dark.svg" width="300" alt="Directive"/></a>
 
 # Directive CLI
 
