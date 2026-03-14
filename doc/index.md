@@ -16,23 +16,23 @@ Slash commands are invoked in IDE chat (GitHub Copilot, Cursor, Claude Code, Ant
 
 ## All Commands
 
-| Command | Description | OpenSpec equivalent |
-|---|---|---|
-| `/dtsx-project` | Define project domain, users, and bounded contexts | — |
-| `/dtsx-stack <tech>` | Add or update technical stack rules for the agent | — |
-| `/dtsx-discuss` | Capture and structure intent conversationally (brainstorm) | — |
-| `/dtsx-evaluate [discussion]` | Break a discussion into ordered, scoped changes | — |
-| `/dtsx-kickoff [discussion]` | Create all changes from a brainstorm in one shot | — |
-| `/dtsx-new <name>` | Create a change and draft the proposal | `opsx:new` |
-| `/dtsx-continue [<change>]` | Write the next artifact (design → specs → tasks) | `opsx:continue` |
-| `/dtsx-propose <name>` | Fast-track: create a change with all artifacts in one pass | `opsx:propose` |
-| `/dtsx-apply [<change>]` | Implement tasks (code + tests) | `opsx:apply` |
-| `/dtsx-verify [<change>]` | Check implementation against specs and design | `opsx:verify` |
-| `/dtsx-reflect [<change>]` | Update artifacts to match implementation reality | — |
-| `/dtsx-learn [<change>]` | Capitalise technical decisions into spec context files | — |
-| `/dtsx-sync [<change>]` | Merge delta specs into main specs, keep change active | `opsx:sync-specs` |
-| `/dtsx-archive [<change>]` | Sync specs and archive a completed change | `opsx:archive` |
-| `/dtsx-commit [<change>]` | Generate an intermediate conventional commit *(manual mode only)* | — |
+| Command | Description |
+|---|---|
+| `/dtsx-project` | Define project domain, users, and bounded contexts |
+| `/dtsx-stack <tech>` | Add or update technical stack rules for the agent |
+| `/dtsx-discuss` | Capture and structure intent conversationally (brainstorm) |
+| `/dtsx-evaluate [discussion]` | Break a discussion into ordered, scoped changes |
+| `/dtsx-kickoff [discussion]` | Create all changes from a brainstorm in one shot |
+| `/dtsx-new <name>` | Create a change and draft the proposal |
+| `/dtsx-continue [<change>]` | Write the next artifact (design → specs → tasks) |
+| `/dtsx-propose <name>` | Fast-track: create a change with all artifacts in one pass |
+| `/dtsx-apply [<change>]` | Implement tasks (code + tests) |
+| `/dtsx-verify [<change>]` | Check implementation against specs and design |
+| `/dtsx-reflect [<change>]` | Update artifacts to match implementation reality |
+| `/dtsx-learn [<change>]` | Capitalise technical decisions into spec context files |
+| `/dtsx-sync [<change>]` | Merge delta specs into main specs, keep change active |
+| `/dtsx-archive [<change>]` | Sync specs and archive a completed change |
+| `/dtsx-commit [<change>]` | Generate an intermediate conventional commit *(manual mode only)* |
 
 ---
 
