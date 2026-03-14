@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+(static function (): void {
+    $autoloadPaths = [
+        __DIR__ . '/../vendor/autoload.php',       // local dev
+        __DIR__ . '/../../../autoload.php',         // global composer install
+    ];
+
+    foreach ($autoloadPaths as $autoload) {
+        if (file_exists($autoload)) {
+            require_once $autoload;
+            break;
+        }
+    }
+
+    $app = new Directive\Cli\Application();
+    $app->run();
+})();

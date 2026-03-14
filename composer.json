@@ -1,0 +1,40 @@
+{
+    "name": "directive/cli",
+    "description": "Scaffold a Directive project in one command — hexagonal structure, AI context files, and IDE prompts ready to go.",
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.4",
+        "symfony/console": "^7.2",
+        "symfony/filesystem": "^7.2",
+        "symfony/yaml": "^7.2"
+    },
+    "require-dev": {
+        "pestphp/pest": "^3.0",
+        "phpstan/phpstan": "^2.0",
+        "friendsofphp/php-cs-fixer": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Directive\\Cli\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Directive\\Cli\\Tests\\": "tests/"
+        }
+    },
+    "bin": [
+        "bin/directive",
+        "bin/directive-cli"
+    ],
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
