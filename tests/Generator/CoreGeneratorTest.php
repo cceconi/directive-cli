@@ -49,6 +49,8 @@ it('generates core project files', function (): void {
     expect(file_exists($tmpDir . '/directive-spec/changes/.gitkeep'))->toBeTrue();
     expect(is_dir($tmpDir . '/directive-spec/changes/archive'))->toBeTrue();
     expect(file_exists($tmpDir . '/directive-spec/changes/archive/.gitkeep'))->toBeTrue();
+    expect(is_dir($tmpDir . '/directive-spec/brainstorm'))->toBeTrue();
+    expect(file_exists($tmpDir . '/directive-spec/brainstorm/.gitkeep'))->toBeTrue();
 
     // namespace + paths in common.yaml
     $commonYaml = file_get_contents($tmpDir . '/directive-spec/context/common.yaml');

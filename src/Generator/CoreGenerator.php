@@ -40,13 +40,15 @@ final class CoreGenerator implements GeneratorInterface
         $fs->mkdir($dir . '/directive-spec/context');
         $fs->dumpFile($dir . '/directive-spec/context/common.yaml', (string) include __DIR__ . '/../Resources/core/directive-spec-context-common.yaml.php');
 
-        // directive-spec/specs/, directive-spec/changes/, directive-spec/changes/archive/
+        // directive-spec/specs/, directive-spec/changes/, directive-spec/changes/archive/, directive-spec/brainstorm/
         $fs->mkdir($dir . '/directive-spec/specs');
         $fs->touch($dir . '/directive-spec/specs/.gitkeep');
         $fs->mkdir($dir . '/directive-spec/changes');
         $fs->touch($dir . '/directive-spec/changes/.gitkeep');
         $fs->mkdir($dir . '/directive-spec/changes/archive');
         $fs->touch($dir . '/directive-spec/changes/archive/.gitkeep');
+        $fs->mkdir($dir . '/directive-spec/brainstorm');
+        $fs->touch($dir . '/directive-spec/brainstorm/.gitkeep');
 
         // src/ hexagonal structure
         $hexDirs = [
