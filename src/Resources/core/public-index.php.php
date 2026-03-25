@@ -1,7 +1,6 @@
 <?php
 
 return <<<'SCRIPT'
-    #!/usr/bin/env php
     <?php
 
     declare(strict_types=1);
@@ -16,7 +15,6 @@ return <<<'SCRIPT'
         }
     }
 
-    use Symfony\Component\Console\Application;
     use Symfony\Component\Dotenv\Dotenv;
 
     $envFile = __DIR__ . '/../.env';
@@ -24,6 +22,5 @@ return <<<'SCRIPT'
         (new Dotenv())->loadEnv($envFile);
     }
 
-    $app = new Application('directive', '1.0.0');
-    $app->run();
+    // TODO: Initialize your WebApplication here.
     SCRIPT . "\n";

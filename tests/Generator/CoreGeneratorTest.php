@@ -28,7 +28,8 @@ it('generates core project files', function (): void {
     expect(file_exists($tmpDir . '/phpstan.neon'))->toBeTrue();
     expect(file_exists($tmpDir . '/.php-cs-fixer.php'))->toBeTrue();
     expect(file_exists($tmpDir . '/.gitignore'))->toBeTrue();
-    expect(file_exists($tmpDir . '/bin/app'))->toBeTrue();
+    expect(file_exists($tmpDir . '/bin/directive'))->toBeTrue();
+    expect(file_exists($tmpDir . '/public/index.php'))->toBeTrue();
     expect(file_exists($tmpDir . '/tests/Pest.php'))->toBeTrue();
     expect(file_exists($tmpDir . '/directive-spec/context/common.yaml'))->toBeTrue();
 

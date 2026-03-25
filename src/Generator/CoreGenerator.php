@@ -27,10 +27,14 @@ final class CoreGenerator implements GeneratorInterface
         // .gitignore
         $fs->dumpFile($dir . '/.gitignore', (string) include __DIR__ . '/../Resources/core/gitignore.php');
 
-        // bin/app
+        // bin/directive
         $fs->mkdir($dir . '/bin');
-        $fs->dumpFile($dir . '/bin/app', (string) include __DIR__ . '/../Resources/core/bin-app.php');
-        $fs->chmod($dir . '/bin/app', 0o755);
+        $fs->dumpFile($dir . '/bin/directive', (string) include __DIR__ . '/../Resources/core/bin-app.php');
+        $fs->chmod($dir . '/bin/directive', 0o755);
+
+        // public/index.php
+        $fs->mkdir($dir . '/public');
+        $fs->dumpFile($dir . '/public/index.php', (string) include __DIR__ . '/../Resources/core/public-index.php.php');
 
         // tests/Pest.php
         $fs->mkdir($dir . '/tests');
