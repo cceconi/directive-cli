@@ -3,6 +3,12 @@
     "description": "Scaffold a Directive project in one command — hexagonal structure, AI context files, and IDE prompts ready to go.",
     "type": "library",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian CECONI",
+            "email": "christian.ceconi@gmail.com"
+        }
+    ],
     "require": {
         "php": "^8.4",
         "symfony/console": "^7.2",
