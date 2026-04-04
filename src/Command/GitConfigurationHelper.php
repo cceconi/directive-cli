@@ -42,6 +42,11 @@ class GitConfigurationHelper
      */
     public function askGitQuestions(SymfonyStyle $io): ?GitConfig
     {
+        // Ask if user wants git
+        if (!$io->confirm('Initialize a Git repository?', true)) {
+            return null;
+        }
+
         $this->pendingUserName  = '';
         $this->pendingUserEmail = '';
 
@@ -53,11 +58,6 @@ class GitConfigurationHelper
         if ($this->getGlobalConfig('user.email') === '') {
             $result = $io->ask('Git user email (not configured globally)');
             $this->pendingUserEmail = is_string($result) ? $result : '';
-        }
-
-        // Ask if user wants git
-        if (!$io->confirm('Initialize a Git repository?', true)) {
-            return null;
         }
 
         // Default branch name

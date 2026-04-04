@@ -1,6 +1,7 @@
 <?php
 
-return <<<'SCRIPT'
+/** @var string $namespace */
+return <<<SCRIPT
     #!/usr/bin/env php
     <?php
 
@@ -9,21 +10,24 @@ return <<<'SCRIPT'
     foreach ([
         __DIR__ . '/../vendor/autoload.php',
         __DIR__ . '/../../../autoload.php',
-    ] as $autoload) {
-        if (file_exists($autoload)) {
-            require $autoload;
+    ] as \$autoload) {
+        if (file_exists(\$autoload)) {
+            require \$autoload;
             break;
         }
     }
 
-    use Symfony\Component\Console\Application;
-    use Symfony\Component\Dotenv\Dotenv;
+    use Symfony\\Component\\Dotenv\\Dotenv;
+    use {$namespace}\\Infrastructure\\Config\\AppConfig;
+    use {$namespace}\\Infrastructure\\ConsoleApplication;
 
-    $envFile = __DIR__ . '/../.env';
-    if (file_exists($envFile)) {
-        (new Dotenv())->loadEnv($envFile);
+    \$envFile = __DIR__ . '/../.env';
+    if (file_exists(\$envFile)) {
+        (new Dotenv())->loadEnv(\$envFile);
     }
 
-    $app = new Application('directive', '1.0.0');
-    $app->run();
+    (new ConsoleApplication())
+        ->setConfig(AppConfig::class)
+        ->addCommands([])
+        ->run();
     SCRIPT . "\n";

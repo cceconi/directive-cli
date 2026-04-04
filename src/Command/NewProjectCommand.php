@@ -18,6 +18,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Yaml;
 
 #[AsCommand(name: 'new', description: 'Create a new Directive project')]
@@ -122,6 +123,20 @@ final class NewProjectCommand extends Command
 
         foreach ($this->generators as $generator) {
             $generator->generate($context);
+        }
+
+        // ── Composer install ─────────────────────────────────────────────────
+        $io->section('Installing dependencies');
+        $composerInstall = new Process(
+            ['composer', 'install', '--no-interaction', '--prefer-dist', '--optimize-autoloader'],
+            cwd: $projectDir,
+        );
+        $composerInstall->setTimeout(300);
+        $composerInstall->run(function (string $type, string $data) use ($output): void {
+            $output->write($data);
+        });
+        if (!$composerInstall->isSuccessful()) {
+            $io->warning('composer install failed. Run it manually inside the project directory.');
         }
 
         // ── Git initialisation ────────────────────────────────────────────

@@ -28,7 +28,7 @@ it('generates core project files', function (): void {
     expect(file_exists($tmpDir . '/phpstan.neon'))->toBeTrue();
     expect(file_exists($tmpDir . '/.php-cs-fixer.php'))->toBeTrue();
     expect(file_exists($tmpDir . '/.gitignore'))->toBeTrue();
-    expect(file_exists($tmpDir . '/bin/directive'))->toBeTrue();
+    expect(file_exists($tmpDir . '/bin/app'))->toBeTrue();
     expect(file_exists($tmpDir . '/public/index.php'))->toBeTrue();
     expect(file_exists($tmpDir . '/tests/Pest.php'))->toBeTrue();
     expect(file_exists($tmpDir . '/directive-spec/context/common.yaml'))->toBeTrue();
@@ -58,6 +58,40 @@ it('generates core project files', function (): void {
     expect($commonYaml)->toContain('MyProject');
     expect($commonYaml)->toContain('directive-spec/specs/');
     expect($commonYaml)->toContain('directive-spec/changes/');
+
+    // Infrastructure bootstrap classes
+    expect(file_exists($tmpDir . '/src/Infrastructure/WebApplication.php'))->toBeTrue();
+    expect(file_exists($tmpDir . '/src/Infrastructure/ConsoleApplication.php'))->toBeTrue();
+
+    $webApp = (string) file_get_contents($tmpDir . '/src/Infrastructure/WebApplication.php');
+    expect($webApp)->toContain('namespace MyProject\\Infrastructure;');
+    expect($webApp)->toContain('extends AbstractWebApplication');
+
+    $consoleApp = (string) file_get_contents($tmpDir . '/src/Infrastructure/ConsoleApplication.php');
+    expect($consoleApp)->toContain('namespace MyProject\\Infrastructure;');
+    expect($consoleApp)->toContain('extends AbstractConsoleApplication');
+
+    // AppConfig
+    expect(file_exists($tmpDir . '/src/Infrastructure/Config/AppConfig.php'))->toBeTrue();
+
+    $appConfig = (string) file_get_contents($tmpDir . '/src/Infrastructure/Config/AppConfig.php');
+    expect($appConfig)->toContain('namespace MyProject\\Infrastructure\\Config;');
+    expect($appConfig)->toContain('extends AbstractConfiguration');
+
+    // var/ runtime directories
+    expect(is_dir($tmpDir . '/var/log'))->toBeTrue();
+    expect(is_dir($tmpDir . '/var/cache'))->toBeTrue();
+
+    // Entry points wired to Infrastructure classes
+    $indexPhp = (string) file_get_contents($tmpDir . '/public/index.php');
+    expect($indexPhp)->toContain('Infrastructure\\WebApplication');
+    expect($indexPhp)->toContain('AppConfig::class');
+    expect($indexPhp)->not->toContain('// TODO');
+
+    $binApp = (string) file_get_contents($tmpDir . '/bin/app');
+    expect($binApp)->toContain('Infrastructure\\ConsoleApplication');
+    expect($binApp)->toContain('AppConfig::class');
+    expect($binApp)->toContain('addCommands([])');
 
     $fs->remove($tmpDir);
 });

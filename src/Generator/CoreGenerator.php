@@ -29,10 +29,10 @@ final class CoreGenerator implements GeneratorInterface
         // .gitignore
         $fs->dumpFile($dir . '/.gitignore', (string) include __DIR__ . '/../Resources/core/gitignore.php');
 
-        // bin/directive
+        // bin/app
         $fs->mkdir($dir . '/bin');
-        $fs->dumpFile($dir . '/bin/directive', (string) include __DIR__ . '/../Resources/core/bin-app.php');
-        $fs->chmod($dir . '/bin/directive', 0o755);
+        $fs->dumpFile($dir . '/bin/app', (string) include __DIR__ . '/../Resources/core/bin-app.php');
+        $fs->chmod($dir . '/bin/app', 0o755);
 
         // public/index.php
         $fs->mkdir($dir . '/public');
@@ -69,5 +69,30 @@ final class CoreGenerator implements GeneratorInterface
             $fs->mkdir($hexDir);
             $fs->touch($hexDir . '/.gitkeep');
         }
+
+        // src/Infrastructure/WebApplication.php
+        $fs->dumpFile(
+            $dir . '/src/Infrastructure/WebApplication.php',
+            (string) include __DIR__ . '/../Resources/core/src-infrastructure-web-application.php.php',
+        );
+
+        // src/Infrastructure/ConsoleApplication.php
+        $fs->dumpFile(
+            $dir . '/src/Infrastructure/ConsoleApplication.php',
+            (string) include __DIR__ . '/../Resources/core/src-infrastructure-console-application.php.php',
+        );
+
+        // src/Infrastructure/Config/AppConfig.php
+        $fs->mkdir($dir . '/src/Infrastructure/Config');
+        $fs->dumpFile(
+            $dir . '/src/Infrastructure/Config/AppConfig.php',
+            (string) include __DIR__ . '/../Resources/core/src-infrastructure-config-app-config.php.php',
+        );
+
+        // var/log/ and var/cache/ — required by the framework at runtime
+        $fs->mkdir($dir . '/var/log');
+        $fs->touch($dir . '/var/log/.gitkeep');
+        $fs->mkdir($dir . '/var/cache');
+        $fs->touch($dir . '/var/cache/.gitkeep');
     }
 }
