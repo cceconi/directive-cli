@@ -11,6 +11,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -48,6 +49,8 @@ final class NewProjectCommand extends Command
     protected function configure(): void
     {
         $this->addArgument('project-name', InputArgument::REQUIRED, 'Name of the project to create (kebab-case)');
+        $this->addOption('local', null, null, 'Resolve cceconi/directive from local filesystem (dev only, not suitable for production)');
+        $this->addOption('directive-path', null, InputOption::VALUE_REQUIRED, 'Path to local directive framework (used with --local)', '/web/directive');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -93,6 +96,10 @@ final class NewProjectCommand extends Command
             $containerName = $helper->ask($input, $output, $containerQuestion);
         }
 
+        $localMode = (bool) $input->getOption('local');
+        /** @var string $directivePath */
+        $directivePath = $input->getOption('directive-path') ?? '/web/directive';
+
         $context = new ProjectContext(
             projectName: $projectName,
             projectDir: $projectDir,
@@ -100,7 +107,16 @@ final class NewProjectCommand extends Command
             tool: $tool,
             withDocker: $withDocker,
             containerName: $containerName,
+            localMode: $localMode,
+            directivePath: $directivePath,
         );
+
+        if ($localMode) {
+            $io->warning(sprintf(
+                '[local mode] directive resolved from %s — not suitable for production',
+                $directivePath,
+            ));
+        }
 
         $filesystem->mkdir($projectDir);
 

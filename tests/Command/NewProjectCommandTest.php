@@ -243,3 +243,135 @@ it('writes base_branch as develop for gitflow strategy', function (): void {
 
     (new Symfony\Component\Filesystem\Filesystem())->remove($tmpDir);
 })->afterEach(fn () => chdir(dirname(dirname(__DIR__))));
+
+// ─── Local mode tests ─────────────────────────────────────────────────────────
+
+it('displays local mode warning when --local is used', function (): void {
+    $tmpDir = sys_get_temp_dir() . '/directive-test-' . uniqid();
+    chdir(sys_get_temp_dir());
+
+    $fakeHelper = new class extends GitConfigurationHelper {
+        public function isGitAvailable(): bool { return false; }
+    };
+
+    $app = new Application();
+    $app->addCommand(new NewProjectCommand([new CoreGenerator()], $fakeHelper));
+    $command = $app->find('new');
+    $tester  = new CommandTester($command);
+    $tester->execute(
+        ['project-name' => basename($tmpDir), '--local' => true],
+        ['interactive' => false],
+    );
+
+    expect($tester->getStatusCode())->toBe(0);
+    expect($tester->getDisplay())->toContain('[local mode] directive resolved from /web/directive');
+    expect($tester->getDisplay())->toContain('not suitable');
+
+    (new Symfony\Component\Filesystem\Filesystem())->remove($tmpDir);
+})->afterEach(fn () => chdir(dirname(dirname(__DIR__))));
+
+it('does not display local mode warning when --local is absent', function (): void {
+    $tmpDir = sys_get_temp_dir() . '/directive-test-' . uniqid();
+    chdir(sys_get_temp_dir());
+
+    $fakeHelper = new class extends GitConfigurationHelper {
+        public function isGitAvailable(): bool { return false; }
+    };
+
+    $app = new Application();
+    $app->addCommand(new NewProjectCommand([new CoreGenerator()], $fakeHelper));
+    $command = $app->find('new');
+    $tester  = new CommandTester($command);
+    $tester->execute(
+        ['project-name' => basename($tmpDir)],
+        ['interactive' => false],
+    );
+
+    expect($tester->getStatusCode())->toBe(0);
+    expect($tester->getDisplay())->not->toContain('[local mode]');
+
+    (new Symfony\Component\Filesystem\Filesystem())->remove($tmpDir);
+})->afterEach(fn () => chdir(dirname(dirname(__DIR__))));
+
+it('does not inject repositories when --directive-path is given without --local', function (): void {
+    $tmpDir = sys_get_temp_dir() . '/directive-test-' . uniqid();
+    chdir(sys_get_temp_dir());
+
+    $fakeHelper = new class extends GitConfigurationHelper {
+        public function isGitAvailable(): bool { return false; }
+    };
+
+    $app = new Application();
+    $app->addCommand(new NewProjectCommand([new CoreGenerator()], $fakeHelper));
+    $command = $app->find('new');
+    $tester  = new CommandTester($command);
+    $tester->execute(
+        ['project-name' => basename($tmpDir), '--directive-path' => '/custom/path'],
+        ['interactive' => false],
+    );
+
+    expect($tester->getStatusCode())->toBe(0);
+
+    /** @var string $raw */
+    $raw = file_get_contents($tmpDir . '/composer.json');
+    /** @var array<string, mixed> $json */
+    $json = json_decode($raw, true);
+    expect($json)->not->toHaveKey('repositories');
+    expect($json['require']['cceconi/directive'])->toBe('^1.0');
+
+    (new Symfony\Component\Filesystem\Filesystem())->remove($tmpDir);
+})->afterEach(fn () => chdir(dirname(dirname(__DIR__))));
+
+it('displays warning containing the custom directive-path when --local and --directive-path are combined', function (): void {
+    $tmpDir = sys_get_temp_dir() . '/directive-test-' . uniqid();
+    chdir(sys_get_temp_dir());
+
+    $fakeHelper = new class extends GitConfigurationHelper {
+        public function isGitAvailable(): bool { return false; }
+    };
+
+    $app = new Application();
+    $app->addCommand(new NewProjectCommand([new CoreGenerator()], $fakeHelper));
+    $command = $app->find('new');
+    $tester  = new CommandTester($command);
+    $tester->execute(
+        ['project-name' => basename($tmpDir), '--local' => true, '--directive-path' => '/custom/path'],
+        ['interactive' => false],
+    );
+
+    expect($tester->getStatusCode())->toBe(0);
+    expect($tester->getDisplay())->toContain('/custom/path');
+    expect($tester->getDisplay())->toContain('not suitable');
+
+    (new Symfony\Component\Filesystem\Filesystem())->remove($tmpDir);
+})->afterEach(fn () => chdir(dirname(dirname(__DIR__))));
+
+it('uses default /web/directive path in composer.json when --local is used without --directive-path', function (): void {
+    $tmpDir = sys_get_temp_dir() . '/directive-test-' . uniqid();
+    chdir(sys_get_temp_dir());
+
+    $fakeHelper = new class extends GitConfigurationHelper {
+        public function isGitAvailable(): bool { return false; }
+    };
+
+    $app = new Application();
+    $app->addCommand(new NewProjectCommand([new CoreGenerator()], $fakeHelper));
+    $command = $app->find('new');
+    $tester  = new CommandTester($command);
+    $tester->execute(
+        ['project-name' => basename($tmpDir), '--local' => true],
+        ['interactive' => false],
+    );
+
+    expect($tester->getStatusCode())->toBe(0);
+
+    /** @var string $raw */
+    $raw = file_get_contents($tmpDir . '/composer.json');
+    /** @var array<string, mixed> $json */
+    $json = json_decode($raw, true);
+    /** @var array<int, array<string, string>> $repos */
+    $repos = $json['repositories'];
+    expect($repos[0]['url'])->toBe('/web/directive');
+
+    (new Symfony\Component\Filesystem\Filesystem())->remove($tmpDir);
+})->afterEach(fn () => chdir(dirname(dirname(__DIR__))));

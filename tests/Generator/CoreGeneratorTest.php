@@ -61,3 +61,100 @@ it('generates core project files', function (): void {
 
     $fs->remove($tmpDir);
 });
+
+it('generates composer.json without repositories in normal mode', function (): void {
+    $fs = new Filesystem();
+    $tmpDir = sys_get_temp_dir() . '/directive-core-test-' . uniqid();
+
+    $context = new ProjectContext(
+        projectName: 'my-project',
+        projectDir: $tmpDir,
+        namespace: 'MyProject',
+        tool: 'none',
+        withDocker: false,
+        containerName: '',
+        localMode: false,
+    );
+
+    $fs->mkdir($tmpDir);
+    (new CoreGenerator())->generate($context);
+
+    /** @var string $raw */
+    $raw = file_get_contents($tmpDir . '/composer.json');
+    /** @var array<string, mixed> $json */
+    $json = json_decode($raw, true);
+
+    expect($json)->not->toHaveKey('repositories');
+    expect($json['require']['cceconi/directive'])->toBe('^1.0');
+
+    $fs->remove($tmpDir);
+});
+
+it('generates composer.json with path repository in local mode', function (): void {
+    $fs = new Filesystem();
+    $tmpDir = sys_get_temp_dir() . '/directive-core-test-' . uniqid();
+
+    $context = new ProjectContext(
+        projectName: 'my-project',
+        projectDir: $tmpDir,
+        namespace: 'MyProject',
+        tool: 'none',
+        withDocker: false,
+        containerName: '',
+        localMode: true,
+    );
+
+    $fs->mkdir($tmpDir);
+    (new CoreGenerator())->generate($context);
+
+    /** @var string $raw */
+    $raw = file_get_contents($tmpDir . '/composer.json');
+    /** @var array<string, mixed> $json */
+    $json = json_decode($raw, true);
+
+    expect($json)->toHaveKey('repositories');
+    /** @var array<int, array<string, string>> $repos */
+    $repos = $json['repositories'];
+    expect($repos[0]['type'])->toBe('path');
+    expect($repos[0]['url'])->toBe('/web/directive');
+    expect($json['require']['cceconi/directive'])->toBe('*@dev');
+
+    // Verify all other keys are preserved in local mode
+    expect($json)->toHaveKey('require-dev');
+    expect($json)->toHaveKey('autoload');
+    expect($json)->toHaveKey('autoload-dev');
+    expect($json)->toHaveKey('scripts');
+    expect($json)->toHaveKey('config');
+
+    $fs->remove($tmpDir);
+});
+
+it('uses custom directive-path in local mode', function (): void {
+    $fs = new Filesystem();
+    $tmpDir = sys_get_temp_dir() . '/directive-core-test-' . uniqid();
+
+    $context = new ProjectContext(
+        projectName: 'my-project',
+        projectDir: $tmpDir,
+        namespace: 'MyProject',
+        tool: 'none',
+        withDocker: false,
+        containerName: '',
+        localMode: true,
+        directivePath: '/custom/path',
+    );
+
+    $fs->mkdir($tmpDir);
+    (new CoreGenerator())->generate($context);
+
+    /** @var string $raw */
+    $raw = file_get_contents($tmpDir . '/composer.json');
+    /** @var array<string, mixed> $json */
+    $json = json_decode($raw, true);
+
+    /** @var array<int, array<string, string>> $repos */
+    $repos = $json['repositories'];
+    expect($repos[0]['url'])->toBe('/custom/path');
+
+    $fs->remove($tmpDir);
+});

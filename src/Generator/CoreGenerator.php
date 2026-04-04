@@ -14,6 +14,8 @@ final class CoreGenerator implements GeneratorInterface
         $dir = $context->projectDir;
         $projectName = $context->projectName;
         $namespace = $context->namespace;
+        $localMode = $context->localMode;
+        $directivePath = $context->directivePath;
 
         // composer.json
         $fs->dumpFile($dir . '/composer.json', (string) include __DIR__ . '/../Resources/core/composer.json.php');
