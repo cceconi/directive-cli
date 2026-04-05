@@ -1,3 +1,3 @@
 <?php
 
-return "APP_ENV=dev\nAPP_SECRET=changeme\n";
+return "APP_ENV=development\nAPP_SECRET=changeme\n";

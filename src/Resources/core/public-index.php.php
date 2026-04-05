@@ -17,12 +17,14 @@ return <<<SCRIPT
     }
 
     use Symfony\\Component\\Dotenv\\Dotenv;
+    use Directive\\Service\\Configuration\\ConfigSourceTracker;
     use {$namespace}\\Infrastructure\\Config\\AppConfig;
     use {$namespace}\\Infrastructure\\WebApplication;
 
-    \$envFile = __DIR__ . '/../.env';
-    if (file_exists(\$envFile)) {
-        (new Dotenv())->loadEnv(\$envFile);
+    \$basePath = dirname(__DIR__);
+    if (file_exists(\$basePath . '/.env')) {
+        ConfigSourceTracker::snapshotSystemVars();
+        ConfigSourceTracker::loadTracked(new Dotenv(), \$basePath);
     }
 
     (new WebApplication())

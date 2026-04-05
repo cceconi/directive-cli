@@ -29,6 +29,9 @@ final class CoreGenerator implements GeneratorInterface
         // .gitignore
         $fs->dumpFile($dir . '/.gitignore', (string) include __DIR__ . '/../Resources/core/gitignore.php');
 
+        // .env
+        $fs->dumpFile($dir . '/.env', (string) include __DIR__ . '/../Resources/core/env.php');
+
         // bin/app
         $fs->mkdir($dir . '/bin');
         $fs->dumpFile($dir . '/bin/app', (string) include __DIR__ . '/../Resources/core/bin-app.php');
@@ -89,10 +92,13 @@ final class CoreGenerator implements GeneratorInterface
             (string) include __DIR__ . '/../Resources/core/src-infrastructure-config-app-config.php.php',
         );
 
-        // var/log/ and var/cache/ — required by the framework at runtime
-        $fs->mkdir($dir . '/var/log');
+        // var/log/ and var/cache/ — required by the framework at runtime.
+        // 0777 so the web/CLI process (www-data, nobody, …) can write without
+        // needing to match the owner of the scaffolded project.
+        $fs->mkdir($dir . '/var', 0777);
+        $fs->mkdir($dir . '/var/log', 0777);
         $fs->touch($dir . '/var/log/.gitkeep');
-        $fs->mkdir($dir . '/var/cache');
+        $fs->mkdir($dir . '/var/cache', 0777);
         $fs->touch($dir . '/var/cache/.gitkeep');
     }
 }
