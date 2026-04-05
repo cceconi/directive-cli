@@ -59,23 +59,32 @@ The CLI asks a few questions:
 
 ```
 my-app/
+  .env                        ← environment variables template
   .github/
-    prompts/                  ← workflow prompts
-  src/
-    Application/
-    Domain/
-    Infrastructure/
-      Http/
-      Console/
-      Persistence/
-      Security/
-  tests/
+    prompts/                  ← workflow prompt files (/dtsx-*)
+  bin/                        ← console entry point
   directive-spec/
     brainstorm/
     changes/
     context/
     specs/
   docker/                     ← if Docker was selected
+  phpstan.neon
+  public/                     ← web entry point
+  src/
+    Application/
+    Domain/
+    Infrastructure/
+      Config/
+        AppConfig.php
+      Console/
+      ConsoleApplication.php
+      Http/
+      Persistence/
+      Security/
+      WebApplication.php
+  tests/
+  var/                        ← runtime cache and logs
   composer.json
 ```
 
@@ -112,7 +121,7 @@ The agent asks three questions sequentially:
 
 Answer each before the agent moves to the next. The agent writes the answers to `directive-spec/context/`.
 
-**Expected**: a `project.md` file in `directive-spec/context/` capturing your domain definition.
+**Expected**: `directive-spec/context/common.yaml` created (or updated) with your domain definition.
 
 ---
 
@@ -124,7 +133,7 @@ Then add your stack:
 
 The agent records your PHP version, key libraries, and conventions.
 
-**Expected**: a `stack-php.md` file in `directive-spec/context/`.
+**Expected**: `directive-spec/context/php.yaml` created with PHP-specific rules, and a reference added in `directive-spec/context/common.yaml`.
 
 > For full details on these commands, see [slash-commands-context.md](slash-commands-context.md).
 

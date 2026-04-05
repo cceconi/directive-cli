@@ -35,7 +35,7 @@ These commands define and enrich project context. They have no CLI equivalent: e
 
 ### `/dtsx-stack <tech>`
 
-**Description** — Adds or updates stack rules for a technical component. The agent analyses the technology and enriches `directive-spec/context/common.yaml` with concrete implementation rules.
+**Description** — Adds or updates stack rules for a technical component. The agent analyses the technology and writes concrete implementation rules to a dedicated `directive-spec/context/<tech>.yaml` file, then adds a reference to it in `directive-spec/context/common.yaml`.
 
 **Input** — `<tech>` (optional): component or technology name (e.g. `postgresql`, `redis`, `symfony`). If absent, the agent asks which stack to analyse.
 
@@ -44,8 +44,9 @@ These commands define and enrich project context. They have no CLI equivalent: e
 **Workflow**
 1. The agent identifies the technology (from the argument or via a question)
 2. The agent analyses the stack: versions, conventions, recommended patterns, anti-patterns to avoid
-3. The agent enriches `directive-spec/context/common.yaml` with rules under the corresponding key
-4. These rules are reused in every change to guide implementation
+3. The agent writes rules to `directive-spec/context/<tech>.yaml` (e.g. `php.yaml`, `postgresql.yaml`)
+4. The agent adds or updates a reference to that file in `directive-spec/context/common.yaml`
+5. These rules are reused in every change to guide implementation
 
 **CLI invoked** — None. The agent writes directly.
 
