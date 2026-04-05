@@ -2,12 +2,15 @@
 
 /** @var string $projectName */
 /** @var string $namespace */
+/** @var bool $localMode */
+/** @var string $directivePath */
 return json_encode([
+    ...($localMode ? ['repositories' => [['type' => 'path', 'url' => $directivePath]]] : []),
     'name' => strtolower($projectName) . '/' . strtolower($projectName),
     'type' => 'project',
     'require' => [
         'php' => '>=8.4',
-        'cceconi/directive' => '^1.0',
+        'cceconi/directive' => $localMode ? '*@dev' : '^1.0',
     ],
     'require-dev' => [
         'pestphp/pest' => '^3.0',

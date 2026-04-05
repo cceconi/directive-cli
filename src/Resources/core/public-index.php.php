@@ -2,7 +2,6 @@
 
 /** @var string $namespace */
 return <<<SCRIPT
-    #!/usr/bin/env php
     <?php
 
     declare(strict_types=1);
@@ -20,7 +19,7 @@ return <<<SCRIPT
     use Symfony\\Component\\Dotenv\\Dotenv;
     use Directive\\Service\\Configuration\\ConfigSourceTracker;
     use {$namespace}\\Infrastructure\\Config\\AppConfig;
-    use {$namespace}\\Infrastructure\\ConsoleApplication;
+    use {$namespace}\\Infrastructure\\WebApplication;
 
     \$basePath = dirname(__DIR__);
     if (file_exists(\$basePath . '/.env')) {
@@ -28,8 +27,7 @@ return <<<SCRIPT
         ConfigSourceTracker::loadTracked(new Dotenv(), \$basePath);
     }
 
-    (new ConsoleApplication())
+    (new WebApplication())
         ->setConfig(AppConfig::class)
-        ->addCommands([])
         ->run();
     SCRIPT . "\n";

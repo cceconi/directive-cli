@@ -49,6 +49,8 @@ final readonly class ProjectContext
         public string $tool,
         public bool $withDocker,
         public string $containerName,
+        public bool $localMode = false,
+        public string $directivePath = '/web/directive',
     ) {
     }
 }
