@@ -1,3 +1,3 @@
 <?php
 
-return "APP_ENV=dev\n";
+return "APP_ENV=development\nAPP_ENV_PROD_NAME=production\n";

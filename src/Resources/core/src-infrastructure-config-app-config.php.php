@@ -8,17 +8,18 @@ return <<<SCRIPT
 
     namespace {$namespace}\\Infrastructure\\Config;
 
-    use Directive\\Service\\Configuration\\AbstractConfiguration;
+    use Directive\\Service\\Configuration\\Configuration;
+    use Directive\\Service\\Configuration\\ConfigProviderInterface;
 
-    class AppConfig extends AbstractConfiguration
+    class AppConfig implements ConfigProviderInterface
     {
-        protected function define(): void
+        public function define(Configuration \$config): void
         {
             // Required environment variables — the application will not boot if missing
-            \$this->required('APP_ENV', allowed: ['production', 'staging', 'development', 'test']);
+            \$config->required('APP_ENV', allowed: ['production', 'staging', 'development', 'test']);
 
             // Optional environment variables — defaults shown
-            // \$this->optional('LOG_LEVEL', default: 'info', allowed: ['debug', 'info', 'warning', 'error']);
+            // \$config->optional('LOG_LEVEL', default: 'info', allowed: ['debug', 'info', 'warning', 'error']);
         }
     }
     SCRIPT . "\n";

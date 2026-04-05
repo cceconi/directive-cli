@@ -78,7 +78,7 @@ it('generates core project files', function (): void {
 
     $appConfig = (string) file_get_contents($tmpDir . '/src/Infrastructure/Config/AppConfig.php');
     expect($appConfig)->toContain('namespace MyProject\\Infrastructure\\Config;');
-    expect($appConfig)->toContain('extends AbstractConfiguration');
+    expect($appConfig)->toContain('implements ConfigProviderInterface');
 
     // var/ runtime directories
     expect(is_dir($tmpDir . '/var/log'))->toBeTrue();
