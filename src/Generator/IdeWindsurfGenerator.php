@@ -6,7 +6,7 @@ namespace Directive\Cli\Generator;
 
 use Symfony\Component\Filesystem\Filesystem;
 
-final class IdeWindsurfGenerator implements GeneratorInterface
+final class IdeWindsurfGenerator implements IdeGeneratorInterface
 {
     public function generate(ProjectContext $context): void
     {
@@ -28,5 +28,15 @@ final class IdeWindsurfGenerator implements GeneratorInterface
                 $frontmatter . $workflow['body'],
             );
         }
+    }
+
+    public function getToolName(): string
+    {
+        return 'windsurf';
+    }
+
+    public function getOutputDir(): string
+    {
+        return '.windsurf/workflows';
     }
 }

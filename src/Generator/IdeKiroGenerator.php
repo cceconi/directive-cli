@@ -6,7 +6,7 @@ namespace Directive\Cli\Generator;
 
 use Symfony\Component\Filesystem\Filesystem;
 
-final class IdeKiroGenerator implements GeneratorInterface
+final class IdeKiroGenerator implements IdeGeneratorInterface
 {
     public function generate(ProjectContext $context): void
     {
@@ -27,5 +27,15 @@ final class IdeKiroGenerator implements GeneratorInterface
                 $frontmatter . $workflow['body'],
             );
         }
+    }
+
+    public function getToolName(): string
+    {
+        return 'kiro';
+    }
+
+    public function getOutputDir(): string
+    {
+        return '.kiro/prompts';
     }
 }

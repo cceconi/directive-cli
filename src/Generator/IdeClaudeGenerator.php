@@ -6,7 +6,7 @@ namespace Directive\Cli\Generator;
 
 use Symfony\Component\Filesystem\Filesystem;
 
-final class IdeClaudeGenerator implements GeneratorInterface
+final class IdeClaudeGenerator implements IdeGeneratorInterface
 {
     public function generate(ProjectContext $context): void
     {
@@ -25,5 +25,15 @@ final class IdeClaudeGenerator implements GeneratorInterface
                 $workflow['body'],
             );
         }
+    }
+
+    public function getToolName(): string
+    {
+        return 'claude';
+    }
+
+    public function getOutputDir(): string
+    {
+        return '.claude/commands';
     }
 }

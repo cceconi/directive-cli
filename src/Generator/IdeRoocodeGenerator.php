@@ -6,7 +6,7 @@ namespace Directive\Cli\Generator;
 
 use Symfony\Component\Filesystem\Filesystem;
 
-final class IdeRoocodeGenerator implements GeneratorInterface
+final class IdeRoocodeGenerator implements IdeGeneratorInterface
 {
     public function generate(ProjectContext $context): void
     {
@@ -28,5 +28,15 @@ final class IdeRoocodeGenerator implements GeneratorInterface
                 $header . $workflow['body'],
             );
         }
+    }
+
+    public function getToolName(): string
+    {
+        return 'roocode';
+    }
+
+    public function getOutputDir(): string
+    {
+        return '.roo/commands';
     }
 }

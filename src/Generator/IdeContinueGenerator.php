@@ -6,7 +6,7 @@ namespace Directive\Cli\Generator;
 
 use Symfony\Component\Filesystem\Filesystem;
 
-final class IdeContinueGenerator implements GeneratorInterface
+final class IdeContinueGenerator implements IdeGeneratorInterface
 {
     public function generate(ProjectContext $context): void
     {
@@ -28,5 +28,15 @@ final class IdeContinueGenerator implements GeneratorInterface
                 $frontmatter . $workflow['body'],
             );
         }
+    }
+
+    public function getToolName(): string
+    {
+        return 'continue';
+    }
+
+    public function getOutputDir(): string
+    {
+        return '.continue/prompts';
     }
 }

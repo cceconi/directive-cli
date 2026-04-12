@@ -6,7 +6,7 @@ namespace Directive\Cli\Generator;
 
 use Symfony\Component\Filesystem\Filesystem;
 
-final class IdeAntigravityGenerator implements GeneratorInterface
+final class IdeAntigravityGenerator implements IdeGeneratorInterface
 {
     public function generate(ProjectContext $context): void
     {
@@ -27,5 +27,15 @@ final class IdeAntigravityGenerator implements GeneratorInterface
                 $frontmatter . $workflow['body'],
             );
         }
+    }
+
+    public function getToolName(): string
+    {
+        return 'antigravity';
+    }
+
+    public function getOutputDir(): string
+    {
+        return '.agent/workflows';
     }
 }

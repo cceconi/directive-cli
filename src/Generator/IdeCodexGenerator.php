@@ -6,7 +6,7 @@ namespace Directive\Cli\Generator;
 
 use Symfony\Component\Filesystem\Filesystem;
 
-final class IdeCodexGenerator implements GeneratorInterface
+final class IdeCodexGenerator implements IdeGeneratorInterface
 {
     public function generate(ProjectContext $context): void
     {
@@ -15,6 +15,7 @@ final class IdeCodexGenerator implements GeneratorInterface
         }
 
         $fs = new Filesystem();
+        $dir = $context->projectDir;
         $projectName = $context->projectName;
 
         foreach (ProjectContext::COMMANDS as $command) {
@@ -22,9 +23,19 @@ final class IdeCodexGenerator implements GeneratorInterface
             $workflow = include __DIR__ . '/../Resources/workflows/' . $command . '.php';
             $frontmatter = "---\ndescription: " . $workflow['description'] . " for " . $projectName . "\nargument-hint: \"<change-name or description>\"\n---\n\n";
             $fs->dumpFile(
-                (string) getenv('HOME') . '/.codex/prompts/' . $command . '.md',
+                $dir . '/.codex/prompts/' . $command . '.md',
                 $frontmatter . $workflow['body'],
             );
         }
+    }
+
+    public function getToolName(): string
+    {
+        return 'codex';
+    }
+
+    public function getOutputDir(): string
+    {
+        return '.codex/prompts';
     }
 }

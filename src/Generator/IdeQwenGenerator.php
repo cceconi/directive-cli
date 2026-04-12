@@ -6,7 +6,7 @@ namespace Directive\Cli\Generator;
 
 use Symfony\Component\Filesystem\Filesystem;
 
-final class IdeQwenGenerator implements GeneratorInterface
+final class IdeQwenGenerator implements IdeGeneratorInterface
 {
     public function generate(ProjectContext $context): void
     {
@@ -27,5 +27,15 @@ final class IdeQwenGenerator implements GeneratorInterface
                 $frontmatter . $workflow['body'],
             );
         }
+    }
+
+    public function getToolName(): string
+    {
+        return 'qwen';
+    }
+
+    public function getOutputDir(): string
+    {
+        return '.qwen/commands';
     }
 }

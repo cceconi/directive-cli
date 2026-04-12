@@ -6,7 +6,7 @@ namespace Directive\Cli\Generator;
 
 use Symfony\Component\Filesystem\Filesystem;
 
-final class IdeGithubCopilotGenerator implements GeneratorInterface
+final class IdeGithubCopilotGenerator implements IdeGeneratorInterface
 {
     public function generate(ProjectContext $context): void
     {
@@ -21,11 +21,21 @@ final class IdeGithubCopilotGenerator implements GeneratorInterface
         foreach (ProjectContext::COMMANDS as $command) {
             /** @var array{description: string, body: string} $workflow */
             $workflow = include __DIR__ . '/../Resources/workflows/' . $command . '.php';
-            $frontmatter = "---\nmode: agent\ndescription: " . $workflow['description'] . " for " . $projectName . "\n---\n\n";
+            $frontmatter = "---\ndescription: " . $workflow['description'] . " for " . $projectName . "\n---\n\n";
             $fs->dumpFile(
                 $dir . '/.github/prompts/' . $command . '.prompt.md',
                 $frontmatter . $workflow['body'],
             );
         }
+    }
+
+    public function getToolName(): string
+    {
+        return 'github-copilot';
+    }
+
+    public function getOutputDir(): string
+    {
+        return '.github/prompts';
     }
 }

@@ -6,7 +6,7 @@ namespace Directive\Cli\Generator;
 
 use Symfony\Component\Filesystem\Filesystem;
 
-final class IdeClineGenerator implements GeneratorInterface
+final class IdeClineGenerator implements IdeGeneratorInterface
 {
     public function generate(ProjectContext $context): void
     {
@@ -28,5 +28,15 @@ final class IdeClineGenerator implements GeneratorInterface
                 $header . $workflow['body'],
             );
         }
+    }
+
+    public function getToolName(): string
+    {
+        return 'cline';
+    }
+
+    public function getOutputDir(): string
+    {
+        return '.clinerules/workflows';
     }
 }

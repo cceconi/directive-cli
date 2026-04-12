@@ -6,7 +6,7 @@ namespace Directive\Cli\Generator;
 
 use Symfony\Component\Filesystem\Filesystem;
 
-final class IdeGeminiGenerator implements GeneratorInterface
+final class IdeGeminiGenerator implements IdeGeneratorInterface
 {
     public function generate(ProjectContext $context): void
     {
@@ -28,5 +28,15 @@ final class IdeGeminiGenerator implements GeneratorInterface
                 $content,
             );
         }
+    }
+
+    public function getToolName(): string
+    {
+        return 'gemini';
+    }
+
+    public function getOutputDir(): string
+    {
+        return '.gemini/commands/dtsx';
     }
 }

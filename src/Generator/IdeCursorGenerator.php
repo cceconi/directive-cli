@@ -6,7 +6,7 @@ namespace Directive\Cli\Generator;
 
 use Symfony\Component\Filesystem\Filesystem;
 
-final class IdeCursorGenerator implements GeneratorInterface
+final class IdeCursorGenerator implements IdeGeneratorInterface
 {
     public function generate(ProjectContext $context): void
     {
@@ -27,5 +27,15 @@ final class IdeCursorGenerator implements GeneratorInterface
                 $frontmatter . $workflow['body'],
             );
         }
+    }
+
+    public function getToolName(): string
+    {
+        return 'cursor';
+    }
+
+    public function getOutputDir(): string
+    {
+        return '.cursor/prompts';
     }
 }

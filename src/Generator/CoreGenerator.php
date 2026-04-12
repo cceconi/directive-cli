@@ -100,5 +100,12 @@ final class CoreGenerator implements GeneratorInterface
         $fs->touch($dir . '/var/log/.gitkeep');
         $fs->mkdir($dir . '/var/cache', 0777);
         $fs->touch($dir . '/var/cache/.gitkeep');
+
+        // var/appinfo.json — application identity for runtime + CI
+        $appInfo = json_encode([
+            'name'    => $projectName,
+            'version' => '0.1.0',
+        ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        $fs->dumpFile($dir . '/var/appinfo.json', $appInfo . "\n");
     }
 }

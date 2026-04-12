@@ -306,7 +306,6 @@ it('generates codex prompts for codex tool', function (): void {
 
     (new IdeCodexGenerator())->generate($context);
 
-    $homeDir = (string) getenv('HOME');
     $prompts = [
         'directive-new', 'directive-continue', 'directive-apply', 'directive-verify',
         'directive-reflect', 'directive-learn', 'directive-archive',
@@ -314,7 +313,7 @@ it('generates codex prompts for codex tool', function (): void {
         'directive-commit',
     ];
     foreach ($prompts as $prompt) {
-        expect($homeDir . '/.codex/prompts/' . $prompt . '.md')->toBeFile($prompt);
+        expect($tmpDir . '/.codex/prompts/' . $prompt . '.md')->toBeFile($prompt);
     }
 
     $fs->remove($tmpDir);
